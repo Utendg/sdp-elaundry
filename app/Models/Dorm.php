@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Dorm extends Model
+{
+    protected $fillable = [
+        'name',
+        'code',
+        'description',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function workers(): HasMany
+    {
+        return $this->hasMany(User::class)->where('role', User::ROLE_WORKER);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+}

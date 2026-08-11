@@ -17,6 +17,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // Role-based access: students request laundry, workers fulfil it, admins oversee.
+            $table->enum('role', ['student', 'worker', 'admin'])->default('student')->index();
+            $table->string('phone', 30)->nullable();
+            // Dorm the user lives in (student) or primarily operates in (worker).
+            // No DB-level FK here because the dorms table is created in a later migration.
+            $table->unsignedBigInteger('dorm_id')->nullable()->index();
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
