@@ -15,6 +15,18 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if (Auth::user()->isStudent())
+                        <x-nav-link :href="route('student.workers.index')" :active="request()->routeIs('student.workers.*')">
+                            {{ __('Find a Worker') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('student.orders.index')" :active="request()->routeIs('student.orders.*')">
+                            {{ __('My Orders') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('student.complaints.index')" :active="request()->routeIs('student.complaints.*')">
+                            {{ __('Complaints') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +82,18 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (Auth::user()->isStudent())
+                <x-responsive-nav-link :href="route('student.workers.index')" :active="request()->routeIs('student.workers.*')">
+                    {{ __('Find a Worker') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('student.orders.index')" :active="request()->routeIs('student.orders.*')">
+                    {{ __('My Orders') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('student.complaints.index')" :active="request()->routeIs('student.complaints.*')">
+                    {{ __('Complaints') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
