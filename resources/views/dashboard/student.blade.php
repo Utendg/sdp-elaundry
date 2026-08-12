@@ -16,7 +16,7 @@
                     <p class="text-gray-600">You have <span class="font-semibold">{{ $activeCount }}</span> active order(s).</p>
                 </div>
                 <a href="{{ route('student.workers.index') }}"
-                   class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 text-white rounded-md font-medium hover:bg-indigo-700">
+                   class="inline-flex items-center justify-center px-4 py-2 bg-aun-navy text-white rounded-md font-medium hover:bg-aun-navy-light">
                     + New laundry order
                 </a>
             </div>
@@ -25,7 +25,7 @@
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h3 class="font-semibold text-gray-900">Recent orders</h3>
-                    <a href="{{ route('student.orders.index') }}" class="text-sm text-indigo-600 hover:underline">View all</a>
+                    <a href="{{ route('student.orders.index') }}" class="text-sm text-aun-navy hover:underline">View all</a>
                 </div>
                 @forelse ($recentOrders as $order)
                     <a href="{{ route('student.orders.show', $order) }}"
@@ -40,7 +40,7 @@
                     </a>
                 @empty
                     <div class="px-6 py-8 text-center text-gray-500">
-                        No orders yet. <a href="{{ route('student.workers.index') }}" class="text-indigo-600 hover:underline">Find a worker</a> to get started.
+                        No orders yet. <a href="{{ route('student.workers.index') }}" class="text-aun-navy hover:underline">Find a worker</a> to get started.
                     </div>
                 @endforelse
             </div>

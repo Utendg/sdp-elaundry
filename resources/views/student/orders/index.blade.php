@@ -27,7 +27,7 @@
                 @empty
                     <div class="px-6 py-10 text-center text-gray-500">
                         You haven't placed any orders yet.
-                        <a href="{{ route('student.workers.index') }}" class="text-indigo-600 hover:underline">Find a worker</a>.
+                        <a href="{{ route('student.workers.index') }}" class="text-aun-navy hover:underline">Find a worker</a>.
                     </div>
                 @endforelse
             </div>

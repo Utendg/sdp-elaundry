@@ -1,12 +1,13 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-aun-navy border-b border-black/10">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                <div class="shrink-0 flex items-center gap-2">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <x-application-logo class="block h-10 w-auto bg-white rounded-full p-0.5" />
+                        <span class="text-white font-semibold hidden lg:block">AUN E-Laundry</span>
                     </a>
                 </div>
 
@@ -57,7 +58,7 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
                 @php $unread = Auth::user()->unreadNotifications()->take(8)->get(); $unreadCount = Auth::user()->unreadNotifications()->count(); @endphp
                 <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="relative p-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <button @click="open = !open" class="relative p-2 text-white/80 hover:text-white focus:outline-none">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
@@ -72,7 +73,7 @@
                             @if ($unreadCount > 0)
                                 <form method="POST" action="{{ route('notifications.readAll') }}">
                                     @csrf
-                                    <button class="text-xs text-indigo-600 hover:underline">Mark all read</button>
+                                    <button class="text-xs text-aun-navy hover:underline">Mark all read</button>
                                 </form>
                             @endif
                         </div>
@@ -86,13 +87,13 @@
                                 <div class="px-4 py-6 text-center text-sm text-gray-500">You're all caught up.</div>
                             @endforelse
                         </div>
-                        <a href="{{ route('notifications.index') }}" class="block px-4 py-2 text-center text-xs text-indigo-600 hover:underline border-t border-gray-100">View all</a>
+                        <a href="{{ route('notifications.index') }}" class="block px-4 py-2 text-center text-xs text-aun-navy hover:underline border-t border-gray-100">View all</a>
                     </div>
                 </div>
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white/80 bg-transparent hover:text-white focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
@@ -124,7 +125,7 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:bg-white/10 focus:text-white transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

@@ -5,7 +5,7 @@
             @if (Auth::user()->unreadNotifications()->exists())
                 <form method="POST" action="{{ route('notifications.readAll') }}">
                     @csrf
-                    <button class="text-sm text-indigo-600 hover:underline">Mark all read</button>
+                    <button class="text-sm text-aun-navy hover:underline">Mark all read</button>
                 </form>
             @endif
         </div>
@@ -20,10 +20,10 @@
             <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
                 @forelse ($notifications as $note)
                     <a href="{{ route('notifications.read', $note->id) }}"
-                       class="block px-6 py-4 border-b border-gray-50 hover:bg-gray-50 {{ is_null($note->read_at) ? 'bg-indigo-50/40' : '' }}">
+                       class="block px-6 py-4 border-b border-gray-50 hover:bg-gray-50 {{ is_null($note->read_at) ? 'bg-orange-50/40' : '' }}">
                         <div class="flex items-start gap-3">
                             @if (is_null($note->read_at))
-                                <span class="mt-1.5 h-2 w-2 rounded-full bg-indigo-600 shrink-0"></span>
+                                <span class="mt-1.5 h-2 w-2 rounded-full bg-aun-navy shrink-0"></span>
                             @else
                                 <span class="mt-1.5 h-2 w-2 rounded-full bg-transparent shrink-0"></span>
                             @endif

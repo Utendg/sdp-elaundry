@@ -60,7 +60,7 @@
                     <div>
                         <x-input-label for="bio" :value="__('Bio / description')" />
                         <textarea id="bio" name="bio" rows="4"
-                                  class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                  class="block mt-1 w-full border-gray-300 focus:border-aun-navy focus:ring-aun-orange rounded-md shadow-sm"
                                   placeholder="Tell students about your service, turnaround time, specialities…">{{ old('bio', $profile->bio) }}</textarea>
                         <x-input-error :messages="$errors->get('bio')" class="mt-2" />
                     </div>

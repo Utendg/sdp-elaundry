@@ -12,7 +12,7 @@
 
             <!-- Add dorm -->
             <div class="bg-white shadow-sm sm:rounded-lg p-6" x-data="{ open: false }">
-                <button @click="open = !open" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">+ Add hall</button>
+                <button @click="open = !open" class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">+ Add hall</button>
                 <form x-show="open" x-cloak method="POST" action="{{ route('admin.dorms.store') }}" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @csrf
                     <input type="text" name="name" placeholder="Hall name" required class="border-gray-300 rounded-md text-sm">
@@ -49,7 +49,7 @@
                             <input type="text" name="code" value="{{ $dorm->code }}" required class="border-gray-300 rounded-md text-sm">
                             <input type="text" name="description" value="{{ $dorm->description }}" placeholder="Description" class="border-gray-300 rounded-md text-sm sm:col-span-2">
                             <div class="sm:col-span-2 flex gap-2">
-                                <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">Save</button>
+                                <button class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">Save</button>
                                 <button type="button" @click="edit = false" class="px-4 py-2 text-sm text-gray-600">Cancel</button>
                             </div>
                         </form>

@@ -29,7 +29,7 @@
                         @endforeach
                     </select>
                 </div>
-                <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">Filter</button>
+                <button class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">Filter</button>
                 <a href="{{ route('admin.orders.index') }}" class="px-4 py-2 text-sm text-gray-600">Reset</a>
             </form>
 
@@ -50,7 +50,7 @@
                     <tbody>
                         @forelse ($orders as $order)
                             <tr class="border-b border-gray-50 hover:bg-gray-50 cursor-pointer" onclick="window.location='{{ route('admin.orders.show', $order) }}'">
-                                <td class="px-4 py-3 font-medium text-indigo-700">{{ $order->reference }}</td>
+                                <td class="px-4 py-3 font-medium text-aun-navy">{{ $order->reference }}</td>
                                 <td class="px-4 py-3">{{ $order->student?->name }}</td>
                                 <td class="px-4 py-3">{{ $order->worker?->name ?? '—' }}</td>
                                 <td class="px-4 py-3">{{ $order->dorm?->name ?? '—' }}</td>

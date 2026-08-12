@@ -14,7 +14,7 @@
 
             <!-- Add new item -->
             <div class="bg-white shadow-sm sm:rounded-lg p-6" x-data="{ open: false }">
-                <button @click="open = !open" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">+ Add item</button>
+                <button @click="open = !open" class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">+ Add item</button>
                 <form x-show="open" x-cloak method="POST" action="{{ route('admin.service-items.store') }}" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @csrf
                     <input type="text" name="name" placeholder="Item name" required class="border-gray-300 rounded-md text-sm">
@@ -62,7 +62,7 @@
                             <input type="number" step="0.01" min="0" name="unit_price" value="{{ $item->unit_price }}" required class="border-gray-300 rounded-md text-sm">
                             <input type="number" min="0" name="sort_order" value="{{ $item->sort_order }}" class="border-gray-300 rounded-md text-sm">
                             <div class="sm:col-span-2 flex gap-2">
-                                <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">Save</button>
+                                <button class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">Save</button>
                                 <button type="button" @click="edit = false" class="px-4 py-2 text-sm text-gray-600">Cancel</button>
                             </div>
                         </form>

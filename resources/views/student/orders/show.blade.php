@@ -35,13 +35,13 @@
                             @php $done = ! is_null($currentIndex) && $loop->index <= $currentIndex; @endphp
                             <li class="flex-1 flex flex-col items-center relative">
                                 @unless ($loop->first)
-                                    <div class="absolute right-1/2 top-3 w-full h-0.5 {{ $done ? 'bg-indigo-600' : 'bg-gray-200' }}"></div>
+                                    <div class="absolute right-1/2 top-3 w-full h-0.5 {{ $done ? 'bg-aun-navy' : 'bg-gray-200' }}"></div>
                                 @endunless
                                 <div class="relative z-10 w-6 h-6 rounded-full flex items-center justify-center text-xs
-                                            {{ $done ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-500' }}">
+                                            {{ $done ? 'bg-aun-navy text-white' : 'bg-gray-200 text-gray-500' }}">
                                     @if ($done) ✓ @else {{ $loop->iteration }} @endif
                                 </div>
-                                <span class="mt-1 text-[10px] sm:text-xs text-center {{ $done ? 'text-indigo-700 font-medium' : 'text-gray-400' }}">{{ $label }}</span>
+                                <span class="mt-1 text-[10px] sm:text-xs text-center {{ $done ? 'text-aun-navy font-medium' : 'text-gray-400' }}">{{ $label }}</span>
                             </li>
                         @endforeach
                     </ol>
@@ -89,7 +89,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="3" class="py-2 text-right font-semibold">Total</td>
-                            <td class="py-2 text-right font-bold text-indigo-700">₦{{ number_format((float) $order->total_price) }}</td>
+                            <td class="py-2 text-right font-bold text-aun-navy">₦{{ number_format((float) $order->total_price) }}</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -136,7 +136,7 @@
                             <textarea name="comment" rows="2" placeholder="Leave a comment (optional)"
                                       class="block w-full border-gray-300 rounded-md text-sm"></textarea>
                             <button type="submit" :disabled="stars === 0"
-                                    class="mt-3 px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 disabled:opacity-50">
+                                    class="mt-3 px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light disabled:opacity-50">
                                 Submit rating
                             </button>
                         </form>
@@ -180,7 +180,7 @@
                 </ul>
             </div>
 
-            <a href="{{ route('student.orders.index') }}" class="text-sm text-indigo-600 hover:underline">← Back to my orders</a>
+            <a href="{{ route('student.orders.index') }}" class="text-sm text-aun-navy hover:underline">← Back to my orders</a>
         </div>
     </div>
 </x-app-layout>

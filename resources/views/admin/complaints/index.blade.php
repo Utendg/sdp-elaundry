@@ -23,7 +23,7 @@
                 <span class="text-gray-500">Filter:</span>
                 @foreach (['' => 'All', 'open' => 'Open', 'under_review' => 'Under review', 'resolved' => 'Resolved', 'dismissed' => 'Dismissed'] as $val => $label)
                     <a href="{{ route('admin.complaints.index', $val ? ['status' => $val] : []) }}"
-                       class="px-3 py-1 rounded-full {{ ($filters['status'] ?? '') === $val ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
+                       class="px-3 py-1 rounded-full {{ ($filters['status'] ?? '') === $val ? 'bg-aun-navy text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}">
                         {{ $label }}
                     </a>
                 @endforeach
@@ -54,7 +54,7 @@
                             </span>
                         </div>
 
-                        <button @click="manage = !manage" class="mt-3 text-sm text-indigo-600 hover:underline">Manage</button>
+                        <button @click="manage = !manage" class="mt-3 text-sm text-aun-navy hover:underline">Manage</button>
                         <form x-show="manage" x-cloak method="POST" action="{{ route('admin.complaints.update', $complaint) }}" class="mt-3 space-y-2">
                             @csrf @method('PATCH')
                             <select name="status" class="block w-full border-gray-300 rounded-md text-sm">
@@ -63,7 +63,7 @@
                                 @endforeach
                             </select>
                             <textarea name="resolution" rows="2" placeholder="Resolution note (optional)" class="block w-full border-gray-300 rounded-md text-sm">{{ $complaint->resolution }}</textarea>
-                            <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">Update</button>
+                            <button class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">Update</button>
                         </form>
                     </div>
                 @empty

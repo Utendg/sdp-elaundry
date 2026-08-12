@@ -27,7 +27,7 @@
                             <tr class="border-b border-gray-50"><td class="py-2">{{ $item->item_name }}</td><td class="py-2 text-center">{{ $item->quantity }}</td><td class="py-2 text-right">₦{{ number_format((float) $item->line_total) }}</td></tr>
                         @endforeach
                     </tbody>
-                    <tfoot><tr><td colspan="2" class="py-2 text-right font-semibold">Total</td><td class="py-2 text-right font-bold text-indigo-700">₦{{ number_format((float) $order->total_price) }}</td></tr></tfoot>
+                    <tfoot><tr><td colspan="2" class="py-2 text-right font-semibold">Total</td><td class="py-2 text-right font-bold text-aun-navy">₦{{ number_format((float) $order->total_price) }}</td></tr></tfoot>
                 </table>
             </div>
 
@@ -50,7 +50,7 @@
                     @foreach ($order->complaints as $c)
                         <div class="text-sm border-b border-gray-50 py-2">
                             <span class="font-medium">{{ $c->subject }}</span> — {{ $c->description }}
-                            <a href="{{ route('admin.complaints.index') }}" class="text-indigo-600 hover:underline">manage</a>
+                            <a href="{{ route('admin.complaints.index') }}" class="text-aun-navy hover:underline">manage</a>
                         </div>
                     @endforeach
                 </div>
@@ -71,7 +71,7 @@
                 </ul>
             </div>
 
-            <a href="{{ route('admin.orders.index') }}" class="text-sm text-indigo-600 hover:underline">← Back to orders</a>
+            <a href="{{ route('admin.orders.index') }}" class="text-sm text-aun-navy hover:underline">← Back to orders</a>
         </div>
     </div>
 </x-app-layout>

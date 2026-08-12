@@ -9,7 +9,7 @@
             <form method="GET" class="flex items-center gap-3">
                 <label class="inline-flex items-center gap-2 text-sm text-gray-700">
                     <input type="checkbox" name="my_dorm" value="1" onchange="this.form.submit()"
-                           @checked($sameDormOnly) class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                           @checked($sameDormOnly) class="rounded border-gray-300 text-aun-navy focus:ring-aun-orange">
                     Show only workers in my dorm
                 </label>
             </form>
@@ -49,7 +49,7 @@
                                 </a>
                                 @if ($worker->workerProfile->is_available)
                                     <a href="{{ route('student.orders.create', ['worker' => $worker->id]) }}"
-                                       class="flex-1 text-center px-3 py-2 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                                       class="flex-1 text-center px-3 py-2 text-sm bg-aun-navy text-white rounded-md hover:bg-aun-navy-light">
                                         Book
                                     </a>
                                 @endif

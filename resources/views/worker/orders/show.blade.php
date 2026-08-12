@@ -54,7 +54,7 @@
                     </tbody>
                     <tfoot>
                         <tr><td colspan="2" class="py-2 text-right font-semibold">Total</td>
-                            <td class="py-2 text-right font-bold text-indigo-700">₦{{ number_format((float) $order->total_price) }}</td></tr>
+                            <td class="py-2 text-right font-bold text-aun-navy">₦{{ number_format((float) $order->total_price) }}</td></tr>
                     </tfoot>
                 </table>
             </div>
@@ -81,7 +81,7 @@
                             <form method="POST" action="{{ route('worker.orders.advance', $order) }}">
                                 @csrf
                                 <input type="hidden" name="status" value="{{ $next }}">
-                                <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                                <button class="px-4 py-2 bg-aun-navy text-white rounded-md hover:bg-aun-navy-light">
                                     {{ $statusLabels[$next] ?? ucfirst($next) }}
                                 </button>
                             </form>
@@ -109,7 +109,7 @@
                                 <input type="hidden" name="stars" :value="stars">
                             </div>
                             <textarea name="comment" rows="2" placeholder="Comment (optional)" class="block w-full border-gray-300 rounded-md text-sm"></textarea>
-                            <button type="submit" :disabled="stars === 0" class="mt-3 px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 disabled:opacity-50">Submit rating</button>
+                            <button type="submit" :disabled="stars === 0" class="mt-3 px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light disabled:opacity-50">Submit rating</button>
                         </form>
                     @endif
                 </div>
@@ -128,7 +128,7 @@
                 </ul>
             </div>
 
-            <a href="{{ route('worker.orders.index') }}" class="text-sm text-indigo-600 hover:underline">← Back to orders</a>
+            <a href="{{ route('worker.orders.index') }}" class="text-sm text-aun-navy hover:underline">← Back to orders</a>
         </div>
     </div>
 </x-app-layout>

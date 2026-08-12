@@ -12,7 +12,19 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                // AUN brand palette (matched from aun.edu.ng + the E-Laundry logo)
+                aun: {
+                    navy: '#222454',
+                    'navy-dark': '#1A1B4B',
+                    'navy-light': '#2f3170',
+                    orange: '#F75B30',
+                    'orange-dark': '#EF6D00',
+                    green: '#0FA153',
+                    red: '#C8262A',
+                },
             },
         },
     },

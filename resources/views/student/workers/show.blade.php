@@ -17,7 +17,7 @@
                     </div>
                     @if ($worker->workerProfile->is_available)
                         <a href="{{ route('student.orders.create', ['worker' => $worker->id]) }}"
-                           class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Book this worker</a>
+                           class="px-4 py-2 bg-aun-navy text-white rounded-md hover:bg-aun-navy-light">Book this worker</a>
                     @else
                         <span class="text-xs bg-gray-200 text-gray-600 px-3 py-1 rounded-full">Currently unavailable</span>
                     @endif
@@ -48,7 +48,7 @@
                 @endforelse
             </div>
 
-            <a href="{{ route('student.workers.index') }}" class="text-sm text-indigo-600 hover:underline">← Back to workers</a>
+            <a href="{{ route('student.workers.index') }}" class="text-sm text-aun-navy hover:underline">← Back to workers</a>
         </div>
     </div>
 </x-app-layout>

@@ -11,7 +11,7 @@
 
             <!-- New general complaint -->
             <div class="bg-white shadow-sm sm:rounded-lg p-6" x-data="{ open: false }">
-                <button @click="open = !open" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700">
+                <button @click="open = !open" class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">
                     + File a complaint
                 </button>
                 <form x-show="open" x-cloak method="POST" action="{{ route('student.complaints.store') }}" class="mt-4 space-y-3">

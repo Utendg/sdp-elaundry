@@ -42,9 +42,9 @@
                     </div>
 
                     <!-- Live total -->
-                    <div class="mt-4 flex items-center justify-between bg-indigo-50 rounded-lg px-4 py-3">
-                        <span class="font-medium text-indigo-900">Estimated total</span>
-                        <span class="text-xl font-bold text-indigo-900">₦<span x-text="total.toLocaleString()">0</span></span>
+                    <div class="mt-4 flex items-center justify-between bg-orange-50 rounded-lg px-4 py-3">
+                        <span class="font-medium text-aun-navy">Estimated total</span>
+                        <span class="text-xl font-bold text-aun-navy">₦<span x-text="total.toLocaleString()">0</span></span>
                     </div>
                     <p class="mt-1 text-xs text-gray-500">Final price is confirmed from the official university rate when you submit.</p>
 
@@ -65,14 +65,14 @@
                     <div class="mt-4">
                         <x-input-label for="notes" :value="__('Special instructions (optional)')" />
                         <textarea id="notes" name="notes" rows="3"
-                                  class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                  class="block mt-1 w-full border-gray-300 focus:border-aun-navy focus:ring-aun-orange rounded-md shadow-sm"
                                   placeholder="e.g. Handle the white shirt with care">{{ old('notes') }}</textarea>
                     </div>
 
                     <div class="mt-6 flex items-center justify-end gap-3">
                         <a href="{{ route('student.workers.index') }}" class="text-sm text-gray-600 hover:underline">Cancel</a>
                         <button type="submit" :disabled="total === 0"
-                                class="px-5 py-2 bg-indigo-600 text-white rounded-md font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                                class="px-5 py-2 bg-aun-navy text-white rounded-md font-medium hover:bg-aun-navy-light disabled:opacity-50 disabled:cursor-not-allowed">
                             Place order
                         </button>
                     </div>
