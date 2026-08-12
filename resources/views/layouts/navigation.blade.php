@@ -26,6 +26,13 @@
                         <x-nav-link :href="route('student.complaints.index')" :active="request()->routeIs('student.complaints.*')">
                             {{ __('Complaints') }}
                         </x-nav-link>
+                    @elseif (Auth::user()->isWorker())
+                        <x-nav-link :href="route('worker.orders.index')" :active="request()->routeIs('worker.orders.*')">
+                            {{ __('Orders') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('worker.profile.edit')" :active="request()->routeIs('worker.profile.*')">
+                            {{ __('My Profile') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -92,6 +99,13 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('student.complaints.index')" :active="request()->routeIs('student.complaints.*')">
                     {{ __('Complaints') }}
+                </x-responsive-nav-link>
+            @elseif (Auth::user()->isWorker())
+                <x-responsive-nav-link :href="route('worker.orders.index')" :active="request()->routeIs('worker.orders.*')">
+                    {{ __('Orders') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('worker.profile.edit')" :active="request()->routeIs('worker.profile.*')">
+                    {{ __('My Profile') }}
                 </x-responsive-nav-link>
             @endif
         </div>

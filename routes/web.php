@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student;
+use App\Http\Controllers\Worker;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -43,6 +44,31 @@ Route::middleware(['auth', 'role:student'])
         Route::post('/orders/{order}/rate', [Student\RatingController::class, 'store'])->name('orders.rate');
         Route::get('/complaints', [Student\ComplaintController::class, 'index'])->name('complaints.index');
         Route::post('/complaints', [Student\ComplaintController::class, 'store'])->name('complaints.store');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Worker area
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:worker'])
+    ->prefix('worker')
+    ->name('worker.')
+    ->group(function () {
+        // Profile is viewable/editable even before approval.
+        Route::get('/profile', [Worker\ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [Worker\ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile/availability', [Worker\ProfileController::class, 'toggleAvailability'])->name('profile.availability');
+
+        // Order management requires an approved worker.
+        Route::middleware('worker.approved')->group(function () {
+            Route::get('/orders', [Worker\OrderController::class, 'index'])->name('orders.index');
+            Route::get('/orders/{order}', [Worker\OrderController::class, 'show'])->name('orders.show');
+            Route::post('/orders/{order}/accept', [Worker\OrderController::class, 'accept'])->name('orders.accept');
+            Route::post('/orders/{order}/reject', [Worker\OrderController::class, 'reject'])->name('orders.reject');
+            Route::post('/orders/{order}/advance', [Worker\OrderController::class, 'advance'])->name('orders.advance');
+            Route::post('/orders/{order}/rate', [Worker\OrderController::class, 'rateStudent'])->name('orders.rate');
+        });
     });
 
 require __DIR__.'/auth.php';
