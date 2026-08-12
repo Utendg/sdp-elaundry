@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    // Optional Google Analytics 4 measurement ID (e.g. G-XXXXXXXXXX).
+    // The tracking snippet only loads when this is set.
+    'google_analytics' => [
+        'id' => env('GOOGLE_ANALYTICS_ID'),
+    ],
+
 ];

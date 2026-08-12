@@ -1,11 +1,17 @@
+@php
+    $routeLabel = \Illuminate\Support\Str::of(request()->route()?->getName() ?? '')
+        ->replace('.', ' ')->headline();
+    $pageTitle = $routeLabel !== '' ? (string) $routeLabel : null;
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="description" content="Sign in to AUN E-Laundry — the American University of Nigeria's campus laundry platform.">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ $pageTitle ? $pageTitle.' · '.config('app.name') : config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

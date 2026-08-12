@@ -9,8 +9,20 @@ use App\Http\Controllers\Worker;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    // Show up to three real 5★/4★ student reviews with comments, newest first.
+    $reviews = \App\Models\Rating::query()
+        ->where('direction', \App\Models\Rating::STUDENT_TO_WORKER)
+        ->whereNotNull('comment')
+        ->where('stars', '>=', 4)
+        ->with('ratee')
+        ->latest()
+        ->take(3)
+        ->get();
+
+    return view('welcome', ['reviews' => $reviews]);
+})->name('home');
+
+Route::view('/privacy', 'privacy')->name('privacy');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
