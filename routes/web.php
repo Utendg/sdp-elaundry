@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student;
@@ -69,6 +70,42 @@ Route::middleware(['auth', 'role:worker'])
             Route::post('/orders/{order}/advance', [Worker\OrderController::class, 'advance'])->name('orders.advance');
             Route::post('/orders/{order}/rate', [Worker\OrderController::class, 'rateStudent'])->name('orders.rate');
         });
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Admin area
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        // Worker approvals
+        Route::get('/workers', [Admin\WorkerController::class, 'index'])->name('workers.index');
+        Route::post('/workers/{worker}/approve', [Admin\WorkerController::class, 'approve'])->name('workers.approve');
+        Route::post('/workers/{worker}/revoke', [Admin\WorkerController::class, 'revoke'])->name('workers.revoke');
+
+        // Price list
+        Route::get('/service-items', [Admin\ServiceItemController::class, 'index'])->name('service-items.index');
+        Route::post('/service-items', [Admin\ServiceItemController::class, 'store'])->name('service-items.store');
+        Route::patch('/service-items/{serviceItem}', [Admin\ServiceItemController::class, 'update'])->name('service-items.update');
+        Route::post('/service-items/{serviceItem}/toggle', [Admin\ServiceItemController::class, 'toggle'])->name('service-items.toggle');
+        Route::delete('/service-items/{serviceItem}', [Admin\ServiceItemController::class, 'destroy'])->name('service-items.destroy');
+
+        // Dorms
+        Route::get('/dorms', [Admin\DormController::class, 'index'])->name('dorms.index');
+        Route::post('/dorms', [Admin\DormController::class, 'store'])->name('dorms.store');
+        Route::patch('/dorms/{dorm}', [Admin\DormController::class, 'update'])->name('dorms.update');
+        Route::post('/dorms/{dorm}/toggle', [Admin\DormController::class, 'toggle'])->name('dorms.toggle');
+
+        // Orders (monitoring)
+        Route::get('/orders', [Admin\OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [Admin\OrderController::class, 'show'])->name('orders.show');
+
+        // Complaints
+        Route::get('/complaints', [Admin\ComplaintController::class, 'index'])->name('complaints.index');
+        Route::patch('/complaints/{complaint}', [Admin\ComplaintController::class, 'update'])->name('complaints.update');
     });
 
 require __DIR__.'/auth.php';

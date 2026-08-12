@@ -33,6 +33,22 @@
                         <x-nav-link :href="route('worker.profile.edit')" :active="request()->routeIs('worker.profile.*')">
                             {{ __('My Profile') }}
                         </x-nav-link>
+                    @elseif (Auth::user()->isAdmin())
+                        <x-nav-link :href="route('admin.workers.index')" :active="request()->routeIs('admin.workers.*')">
+                            {{ __('Workers') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                            {{ __('Orders') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.complaints.index')" :active="request()->routeIs('admin.complaints.*')">
+                            {{ __('Complaints') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.service-items.index')" :active="request()->routeIs('admin.service-items.*')">
+                            {{ __('Price List') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.dorms.index')" :active="request()->routeIs('admin.dorms.*')">
+                            {{ __('Dorms') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -106,6 +122,22 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('worker.profile.edit')" :active="request()->routeIs('worker.profile.*')">
                     {{ __('My Profile') }}
+                </x-responsive-nav-link>
+            @elseif (Auth::user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.workers.index')" :active="request()->routeIs('admin.workers.*')">
+                    {{ __('Workers') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                    {{ __('Orders') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.complaints.index')" :active="request()->routeIs('admin.complaints.*')">
+                    {{ __('Complaints') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.service-items.index')" :active="request()->routeIs('admin.service-items.*')">
+                    {{ __('Price List') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.dorms.index')" :active="request()->routeIs('admin.dorms.*')">
+                    {{ __('Dorms') }}
                 </x-responsive-nav-link>
             @endif
         </div>

@@ -6,26 +6,26 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                <div class="bg-white shadow-sm rounded-lg p-6">
+                <a href="{{ route('admin.workers.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
                     <div class="text-sm text-gray-500">Students</div>
                     <div class="text-3xl font-bold text-gray-900">{{ $totalStudents }}</div>
-                </div>
-                <div class="bg-white shadow-sm rounded-lg p-6">
+                </a>
+                <a href="{{ route('admin.workers.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
                     <div class="text-sm text-gray-500">Workers</div>
                     <div class="text-3xl font-bold text-gray-900">{{ $totalWorkers }}</div>
-                </div>
-                <div class="bg-white shadow-sm rounded-lg p-6">
+                </a>
+                <a href="{{ route('admin.workers.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
                     <div class="text-sm text-gray-500">Pending approval</div>
                     <div class="text-3xl font-bold text-amber-600">{{ $pendingWorkers }}</div>
-                </div>
-                <div class="bg-white shadow-sm rounded-lg p-6">
+                </a>
+                <a href="{{ route('admin.orders.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
                     <div class="text-sm text-gray-500">Total orders</div>
                     <div class="text-3xl font-bold text-gray-900">{{ $totalOrders }}</div>
-                </div>
-                <div class="bg-white shadow-sm rounded-lg p-6">
+                </a>
+                <a href="{{ route('admin.complaints.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
                     <div class="text-sm text-gray-500">Open complaints</div>
                     <div class="text-3xl font-bold text-red-600">{{ $openComplaints }}</div>
-                </div>
+                </a>
             </div>
 
             <div class="bg-white shadow-sm sm:rounded-lg">
@@ -33,7 +33,7 @@
                     <h3 class="font-semibold text-gray-900">Latest orders</h3>
                 </div>
                 @forelse ($recentOrders as $order)
-                    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+                    <a href="{{ route('admin.orders.show', $order) }}" class="flex items-center justify-between px-6 py-4 border-b border-gray-50 hover:bg-gray-50">
                         <div>
                             <div class="font-medium text-gray-900">{{ $order->reference }}</div>
                             <div class="text-sm text-gray-500">
@@ -41,13 +41,11 @@
                             </div>
                         </div>
                         <x-order-status-badge :status="$order->status" />
-                    </div>
+                    </a>
                 @empty
                     <div class="px-6 py-8 text-center text-gray-500">No orders yet.</div>
                 @endforelse
             </div>
-
-            <p class="text-sm text-gray-500">Worker approval, price-list management and complaint handling arrive in a later build increment.</p>
         </div>
     </div>
 </x-app-layout>
