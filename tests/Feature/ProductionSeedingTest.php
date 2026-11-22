@@ -12,6 +12,7 @@ beforeEach(function () {
 });
 
 afterEach(function () {
+    putenv("LAUNDRY_WORKER_PASSWORD");
     putenv('HEAD_ADMIN_EMAIL');
     putenv('HEAD_ADMIN_PASSWORD');
     $this->app['env'] = 'testing';
@@ -55,4 +56,20 @@ it('creates no administrator when the head admin variables are missing', functio
     app(DatabaseSeeder::class)->setContainer(app())->__invoke();
 
     expect(User::count())->toBe(0);
+});
+
+it('seeds one approved laundry worker per hall when a worker password is set', function () {
+    putenv('HEAD_ADMIN_EMAIL=reslife@aun.edu.ng');
+    putenv('HEAD_ADMIN_PASSWORD=a-strong-first-password');
+    putenv('LAUNDRY_WORKER_PASSWORD=worker-first-password');
+
+    app(DatabaseSeeder::class)->setContainer(app())->__invoke();
+    putenv('LAUNDRY_WORKER_PASSWORD');
+
+    $workers = User::where('role', User::ROLE_WORKER)->with('workerProfile', 'dorm')->get();
+    expect($workers)->toHaveCount(9)
+        ->and($workers->pluck('dorm_id')->unique())->toHaveCount(9)
+        ->and($workers->every(fn ($w) => $w->workerProfile?->is_approved))->toBeTrue()
+        ->and(User::where('email', 'worker@aun.edu.ng')->exists())->toBeFalse()
+        ->and(Hash::check('worker-first-password', $workers->first()->password))->toBeTrue();
 });

@@ -26,10 +26,6 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                     @if ($canWorkers)
                         <a href="{{ route('admin.workers.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
-                            <div class="text-sm text-gray-500">Students</div>
-                            <div class="text-3xl font-bold text-gray-900">{{ $totalStudents }}</div>
-                        </a>
-                        <a href="{{ route('admin.workers.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
                             <div class="text-sm text-gray-500">Workers</div>
                             <div class="text-3xl font-bold text-gray-900">{{ $totalWorkers }}</div>
                         </a>
@@ -39,6 +35,10 @@
                         </a>
                     @endif
                     @if ($canOrders)
+                        <a href="{{ route('admin.students.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow" title="View students by residence hall">
+                            <div class="text-sm text-gray-500">Students</div>
+                            <div class="text-3xl font-bold text-gray-900">{{ $totalStudents }}</div>
+                        </a>
                         <a href="{{ route('admin.orders.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
                             <div class="text-sm text-gray-500">Total orders</div>
                             <div class="text-3xl font-bold text-gray-900">{{ $totalOrders }}</div>

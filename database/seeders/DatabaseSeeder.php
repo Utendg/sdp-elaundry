@@ -25,6 +25,9 @@ class DatabaseSeeder extends Seeder
         // The demo accounts below (all with the password "password") exist only on development machines.
         if (app()->environment('production') && ! filter_var(getenv('SEED_DEMO_DATA'), FILTER_VALIDATE_BOOLEAN)) {
             $this->seedHeadOfResidenceLife();
+            if ($password = getenv('LAUNDRY_WORKER_PASSWORD')) {
+                $this->seedLaundryWorkers($password, demo: false);
+            }
 
             return;
         }
@@ -63,46 +66,8 @@ class DatabaseSeeder extends Seeder
             $officer->adminPermissions()->firstOrCreate(['permission' => $permission], ['granted_by' => $head->id]);
         }
 
-        // One approved laundry man per residence hall.
-        // worker@aun.edu.ng is kept as the Dorm AA laundry man so the demo login stays the same.
-        $laundryMen = [
-            'AA' => ['worker@aun.edu.ng', 'Adamu Musa'],
-            'BB' => ['laundry.bb@aun.edu.ng', 'Ibrahim Sani'],
-            'CC' => ['laundry.cc@aun.edu.ng', 'Emeka Okafor'],
-            'DD' => ['laundry.dd@aun.edu.ng', 'Musa Bello'],
-            'EE' => ['laundry.ee@aun.edu.ng', 'Yakubu Danjuma'],
-            'FF' => ['laundry.ff@aun.edu.ng', 'Chinedu Eze'],
-            'VB' => ['laundry.vb@aun.edu.ng', 'Garba Usman'],
-            'AK' => ['laundry.ak@aun.edu.ng', 'Tunde Adebayo'],
-            'VG' => ['laundry.vg@aun.edu.ng', 'Sule Abdullahi'],
-        ];
-
-        $n = 0;
-        foreach ($laundryMen as $code => [$email, $name]) {
-            $dorm = Dorm::where('code', $code)->first();
-            $n++;
-
-            $worker = User::updateOrCreate(
-                ['email' => $email],
-                [
-                    'name' => $name,
-                    'role' => User::ROLE_WORKER,
-                    'phone' => sprintf('+23480300001%02d', $n),
-                    'dorm_id' => $dorm?->id,
-                    'password' => Hash::make('password'),
-                    'email_verified_at' => now(),
-                ],
-            );
-            WorkerProfile::updateOrCreate(
-                ['user_id' => $worker->id],
-                [
-                    'bio' => "Laundry man for {$dorm?->name}. Washing, drying and ironing with a quick turnaround.",
-                    'is_approved' => true,
-                    'is_available' => true,
-                    'approved_at' => now(),
-                ],
-            );
-        }
+        // One approved laundry worker per residence hall (password "password" on development machines).
+        $this->seedLaundryWorkers('password', demo: true);
 
         // Pending worker (awaiting admin approval).
         $pending = User::updateOrCreate(
@@ -133,6 +98,57 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ],
         );
+    }
+
+    /**
+     * One approved laundry worker for each of the nine residence halls.
+     * On development machines the demo accounts are refreshed every time; on a live server each
+     * account is created only once, so later changes (password, phone, approval) are kept.
+     */
+    private function seedLaundryWorkers(string $password, bool $demo): void
+    {
+        $laundryWorkers = [
+            'AA' => [$demo ? 'worker@aun.edu.ng' : 'laundry.aa@aun.edu.ng', 'Adamu Musa'],
+            'BB' => ['laundry.bb@aun.edu.ng', 'Ibrahim Sani'],
+            'CC' => ['laundry.cc@aun.edu.ng', 'Emeka Okafor'],
+            'DD' => ['laundry.dd@aun.edu.ng', 'Musa Bello'],
+            'EE' => ['laundry.ee@aun.edu.ng', 'Yakubu Danjuma'],
+            'FF' => ['laundry.ff@aun.edu.ng', 'Chinedu Eze'],
+            'VB' => ['laundry.vb@aun.edu.ng', 'Garba Usman'],
+            'AK' => ['laundry.ak@aun.edu.ng', 'Tunde Adebayo'],
+            'VG' => ['laundry.vg@aun.edu.ng', 'Sule Abdullahi'],
+        ];
+
+        $n = 0;
+        foreach ($laundryWorkers as $code => [$email, $name]) {
+            $n++;
+            $dorm = Dorm::where('code', $code)->first();
+            if (! $dorm) {
+                continue;
+            }
+            $attributes = [
+                'name' => $name,
+                'role' => User::ROLE_WORKER,
+                'phone' => sprintf('+23480300001%02d', $n),
+                'dorm_id' => $dorm->id,
+                'password' => Hash::make($password),
+                'email_verified_at' => now(),
+                'is_active' => true,
+            ];
+            $worker = $demo
+                ? User::updateOrCreate(['email' => $email], $attributes)
+                : User::firstOrCreate(['email' => $email], $attributes);
+
+            $profile = [
+                'bio' => "Laundry worker for {$dorm->name}. Washing, drying and ironing with a quick turnaround.",
+                'is_approved' => true,
+                'is_available' => true,
+                'approved_at' => now(),
+            ];
+            $demo
+                ? WorkerProfile::updateOrCreate(['user_id' => $worker->id], $profile)
+                : WorkerProfile::firstOrCreate(['user_id' => $worker->id], $profile);
+        }
     }
 
     /**

@@ -45,6 +45,8 @@ services:
         sync: false # their first password; they can change it on the Profile page
       - key: HEAD_ADMIN_NAME
         value: Head of Residence Life
+      - key: LAUNDRY_WORKER_PASSWORD
+        sync: false # first password for the nine seeded laundry workers (one per hall)
 
 databases:
   - name: aun-elaundry-db

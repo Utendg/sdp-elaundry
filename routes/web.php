@@ -137,6 +137,7 @@ Route::middleware(['auth', 'role:admin'])
 
         // Orders (monitoring)
         Route::middleware('admin.permission:orders')->group(function () {
+            Route::get('/students', [Admin\StudentController::class, 'index'])->name('students.index');
             Route::get('/orders', [Admin\OrderController::class, 'index'])->name('orders.index');
             Route::get('/orders/{order}', [Admin\OrderController::class, 'show'])->name('orders.show');
         });
