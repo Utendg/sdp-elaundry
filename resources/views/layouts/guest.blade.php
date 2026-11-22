@@ -30,7 +30,7 @@
                 <span class="mt-3 text-white font-semibold text-lg">AUN E-Laundry</span>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="w-[calc(100%-2rem)] sm:w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg">
                 {{ $slot }}
             </div>
         </div>

@@ -4,12 +4,12 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
 
-            <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
+            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                 @forelse ($orders as $order)
                     <a href="{{ route('student.orders.show', $order) }}"
                        class="flex items-center justify-between px-6 py-4 border-b border-gray-50 hover:bg-gray-50">

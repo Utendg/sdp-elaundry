@@ -4,9 +4,9 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <!-- Filters -->
-            <form method="GET" class="bg-white shadow-sm sm:rounded-lg p-4 flex flex-wrap items-end gap-3">
+            <form method="GET" class="bg-white shadow-sm rounded-lg p-4 flex flex-wrap items-end gap-3">
                 <div>
                     <label class="block text-xs text-gray-500 mb-1">Reference</label>
                     <input type="text" name="search" value="{{ $filters['search'] ?? '' }}" placeholder="ELD-…" class="border-gray-300 rounded-md text-sm">
@@ -34,8 +34,9 @@
             </form>
 
             <!-- Table -->
-            <div class="bg-white shadow-sm sm:rounded-lg overflow-x-auto">
-                <table class="w-full text-sm">
+            <div class="bg-white shadow-sm rounded-lg overflow-x-auto">
+                <div class="overflow-x-auto -mx-1 px-1">
+                <table data-scroll class="w-full text-sm">
                     <thead>
                         <tr class="text-left text-gray-500 border-b">
                             <th class="px-4 py-3">Ref</th>
@@ -63,6 +64,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
             </div>
 
             {{ $orders->links() }}

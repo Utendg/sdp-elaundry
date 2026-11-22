@@ -13,7 +13,7 @@
     @endphp
 
     <div class="py-8">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
@@ -31,7 +31,7 @@
 
             <div class="space-y-3">
                 @forelse ($complaints as $complaint)
-                    <div class="bg-white shadow-sm sm:rounded-lg p-5" x-data="{ manage: false }">
+                    <div class="bg-white shadow-sm rounded-lg p-5" x-data="{ manage: false }">
                         <div class="flex items-start justify-between">
                             <div class="min-w-0">
                                 <div class="font-medium text-gray-900">{{ $complaint->subject }}</div>
@@ -67,7 +67,7 @@
                         </form>
                     </div>
                 @empty
-                    <div class="bg-white shadow-sm sm:rounded-lg px-6 py-10 text-center text-gray-500">No complaints{{ ($filters['status'] ?? '') ? ' with this status' : '' }}.</div>
+                    <div class="bg-white shadow-sm rounded-lg px-6 py-10 text-center text-gray-500">No complaints{{ ($filters['status'] ?? '') ? ' with this status' : '' }}.</div>
                 @endforelse
             </div>
 

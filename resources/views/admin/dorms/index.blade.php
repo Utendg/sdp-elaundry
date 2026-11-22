@@ -4,14 +4,14 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
             <x-input-error :messages="$errors->all()" />
 
             <!-- Add dorm -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6" x-data="{ open: false }">
+            <div class="bg-white shadow-sm rounded-lg p-6" x-data="{ open: false }">
                 <button @click="open = !open" class="px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">+ Add hall</button>
                 <form x-show="open" x-cloak method="POST" action="{{ route('admin.dorms.store') }}" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @csrf
@@ -23,10 +23,10 @@
             </div>
 
             <!-- List -->
-            <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
+            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                 @foreach ($dorms as $dorm)
                     <div class="px-6 py-4 border-b border-gray-50" x-data="{ edit: false }">
-                        <div class="flex items-center justify-between" x-show="!edit">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3" x-show="!edit">
                             <div>
                                 <div class="font-medium text-gray-900 {{ $dorm->is_active ? '' : 'line-through text-gray-400' }}">{{ $dorm->name }}
                                     <span class="text-xs text-gray-400">({{ $dorm->code }})</span>

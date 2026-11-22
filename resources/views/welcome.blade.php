@@ -55,12 +55,12 @@
 <body class="antialiased bg-white text-gray-900 font-sans">
     <!-- Top bar -->
     <header class="bg-aun-navy text-white sticky top-0 z-30 shadow-md">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2">
             <div class="flex items-center gap-3">
-                <img src="{{ asset('images/logo.svg') }}" alt="AUN E-Laundry logo" class="h-14 w-14 bg-white rounded-full p-0.5">
+                <img src="{{ asset('images/logo.svg') }}" alt="AUN E-Laundry logo" class="h-11 w-11 sm:h-14 sm:w-14 bg-white rounded-full p-0.5 shrink-0">
                 <div class="leading-tight">
-                    <div class="font-bold text-lg">AUN E-Laundry</div>
-                    <div class="text-xs text-white/60">American University of Nigeria</div>
+                    <div class="font-bold text-base sm:text-lg whitespace-nowrap">AUN E-Laundry</div>
+                    <div class="hidden sm:block text-xs text-white/60">American University of Nigeria</div>
                 </div>
             </div>
             <nav class="flex items-center gap-1 sm:gap-4 text-sm">
@@ -69,8 +69,8 @@
                 @auth
                     <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-aun-orange text-white rounded-full font-medium hover:bg-aun-orange-dark">Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}" class="px-3 py-2 text-white/90 hover:text-white">Log in</a>
-                    <a href="{{ route('register') }}" class="px-4 py-2 bg-aun-orange text-white rounded-full font-medium hover:bg-aun-orange-dark">Register</a>
+                    <a href="{{ route('login') }}" class="px-2 sm:px-3 py-2 text-white/90 hover:text-white whitespace-nowrap">Log in</a>
+                    <a href="{{ route('register') }}" class="px-3 sm:px-4 py-2 bg-aun-orange text-white rounded-full font-medium hover:bg-aun-orange-dark whitespace-nowrap">Register</a>
                 @endauth
             </nav>
         </div>
@@ -82,7 +82,7 @@
         <div class="absolute inset-0 bg-gradient-to-br from-aun-navy/95 via-aun-navy/85 to-aun-navy/60"></div>
         <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
             <div class="max-w-2xl text-white">
-                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sm text-white/90 mb-5">🧺 Built for AUN resident life</span>
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sm text-white/90 mb-5"><span class="w-6 h-6 rounded-full bg-white flex items-center justify-center"><x-icon name="basket" class="w-4 h-4" /></span> Built for AUN resident life</span>
                 <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
                     Campus laundry,<br><span class="text-aun-orange">done right.</span>
                 </h1>
@@ -94,7 +94,7 @@
                     <a href="{{ route('register') }}" class="px-6 py-3 bg-aun-orange text-white rounded-full font-semibold hover:bg-aun-orange-dark shadow-lg">Get started — it's free</a>
                     <a href="{{ route('login') }}" class="px-6 py-3 border border-white/40 text-white rounded-full font-semibold hover:bg-white/10">I already have an account</a>
                 </div>
-                <p class="mt-4 text-sm text-white/70">⏱️ Workers typically respond to new orders within a few hours.</p>
+                <p class="mt-4 text-sm text-white/70 flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0"><x-icon name="clock" class="w-4 h-4" /></span> Workers typically respond to new orders within a few hours.</p>
             </div>
         </div>
     </section>
@@ -118,15 +118,15 @@
         <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @php
                 $features = [
-                    ['💰', 'Fair, fixed prices', 'Every item is priced at the official university rate — no overcharging, no surprises.'],
-                    ['📍', 'Real-time tracking', 'Follow your laundry from pickup through washing, ironing, and ready for return.'],
-                    ['⭐', 'Ratings you can trust', 'Two-way reviews keep workers reliable and students accountable.'],
-                    ['🛡️', 'Verified workers', 'Every laundry worker is approved by the administration before taking orders.'],
+                    ['price', 'Fair, fixed prices', 'Every item is priced at the official university rate — no overcharging, no surprises.'],
+                    ['pin', 'Real-time tracking', 'Follow your laundry from pickup through washing, ironing, and ready for return.'],
+                    ['star', 'Ratings you can trust', 'Two-way reviews keep workers reliable and students accountable.'],
+                    ['shield', 'Verified workers', 'Every laundry worker is approved by the administration before taking orders.'],
                 ];
             @endphp
             @foreach ($features as [$icon, $title, $desc])
                 <div class="bg-white rounded-2xl shadow-sm ring-1 ring-gray-100 p-6 hover:shadow-md transition">
-                    <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-2xl">{{ $icon }}</div>
+                    <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center"><x-icon :name="$icon" class="w-8 h-8" /></div>
                     <h3 class="mt-4 font-semibold text-aun-navy">{{ $title }}</h3>
                     <p class="mt-1 text-sm text-gray-600">{{ $desc }}</p>
                 </div>
@@ -167,14 +167,14 @@
         <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
             @php
                 $steps = [
-                    ['1', '👕', 'Find a worker', 'Browse verified workers in your dorm, sorted by rating.'],
-                    ['2', '🧾', 'Place your order', 'Pick your items and see the exact price before you book.'],
-                    ['3', '🔔', 'Track & rate', 'Watch progress in real time, get notified, then rate the service.'],
+                    ['1', 'shirt', 'Find a worker', 'Browse verified workers in your dorm, sorted by rating.'],
+                    ['2', 'receipt', 'Place your order', 'Pick your items and see the exact price before you book.'],
+                    ['3', 'bell', 'Track & rate', 'Watch progress in real time, get notified, then rate the service.'],
                 ];
             @endphp
             @foreach ($steps as [$n, $icon, $title, $desc])
                 <div class="relative bg-white rounded-2xl ring-1 ring-gray-100 p-6 text-center">
-                    <div class="mx-auto w-14 h-14 rounded-full bg-aun-navy text-white flex items-center justify-center text-2xl">{{ $icon }}</div>
+                    <div class="mx-auto w-14 h-14 rounded-full bg-orange-50 ring-2 ring-aun-navy/10 flex items-center justify-center"><x-icon :name="$icon" class="w-9 h-9" /></div>
                     <div class="absolute top-4 right-5 text-4xl font-extrabold text-gray-100">{{ $n }}</div>
                     <h3 class="mt-4 font-semibold text-aun-navy">{{ $title }}</h3>
                     <p class="mt-1 text-sm text-gray-600">{{ $desc }}</p>

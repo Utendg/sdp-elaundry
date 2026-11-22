@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <!-- Filter -->
             <form method="GET" class="flex items-center gap-3">
                 <label class="inline-flex items-center gap-2 text-sm text-gray-700">
@@ -15,7 +15,7 @@
             </form>
 
             @if ($workers->isEmpty())
-                <div class="bg-white shadow-sm sm:rounded-lg p-8 text-center text-gray-500">
+                <div class="bg-white shadow-sm rounded-lg p-8 text-center text-gray-500">
                     No approved workers available{{ $sameDormOnly ? ' in your dorm' : '' }} right now. Please check back later.
                 </div>
             @else

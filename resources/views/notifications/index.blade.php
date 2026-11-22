@@ -12,12 +12,12 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
 
-            <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
+            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                 @forelse ($notifications as $note)
                     <a href="{{ route('notifications.read', $note->id) }}"
                        class="block px-6 py-4 border-b border-gray-50 hover:bg-gray-50 {{ is_null($note->read_at) ? 'bg-orange-50/40' : '' }}">

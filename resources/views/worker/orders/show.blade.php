@@ -11,15 +11,15 @@
     @endphp
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
             <x-input-error :messages="$errors->all()" />
 
             <!-- Customer + items -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
                     <div><span class="text-gray-500">Student:</span> <span class="font-medium">{{ $order->student?->name }}</span></div>
                     <div><span class="text-gray-500">Phone:</span> <span class="font-medium">{{ $order->student?->phone ?? '—' }}</span></div>
                     <div><span class="text-gray-500">Placed:</span> <span class="font-medium">{{ $order->created_at->format('d M Y, g:i A') }}</span></div>
@@ -37,7 +37,8 @@
                     </div>
                 @endif
 
-                <table class="mt-4 w-full text-sm">
+                <div class="overflow-x-auto -mx-1 px-1">
+                <table data-scroll class="mt-4 w-full text-sm">
                     <thead>
                         <tr class="text-left text-gray-500 border-b">
                             <th class="py-2">Item</th><th class="py-2 text-center">Qty</th><th class="py-2 text-right">Total</th>
@@ -57,10 +58,11 @@
                             <td class="py-2 text-right font-bold text-aun-navy">₦{{ number_format((float) $order->total_price) }}</td></tr>
                     </tfoot>
                 </table>
+                </div>
             </div>
 
             <!-- Actions -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <h3 class="font-semibold text-gray-900 mb-3">Update status</h3>
 
                 @if ($order->status === 'pending')
@@ -93,7 +95,7 @@
             </div>
 
             <!-- Worker notes -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <h3 class="font-semibold text-gray-900 mb-1">Notes for the student</h3>
                 <p class="text-xs text-gray-500 mb-3">Record anything the student should know, e.g. a stain that could not be removed or a missing button. The student is notified.</p>
 
@@ -117,7 +119,7 @@
 
             <!-- Rate the student (after completion) -->
             @if ($order->isCompleted())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-white shadow-sm rounded-lg p-6">
                     <h3 class="font-semibold text-gray-900 mb-3">Rate this student</h3>
                     @if ($workerRating)
                         <div class="flex items-center gap-2"><x-stars :value="$workerRating->stars" /><span class="text-sm text-gray-500">You rated this student.</span></div>
@@ -139,7 +141,7 @@
             @endif
 
             <!-- History -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <h3 class="font-semibold text-gray-900 mb-3">History</h3>
                 <ul class="space-y-2">
                     @foreach ($order->statusHistory as $entry)

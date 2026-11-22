@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-8">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
@@ -62,7 +62,7 @@
             <!-- History -->
             <section>
                 <h3 class="font-semibold text-gray-900 mb-3">Recent history</h3>
-                <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
+                <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                     @forelse ($completed as $order)
                         <a href="{{ route('worker.orders.show', $order) }}" class="flex items-center justify-between px-6 py-3 border-b border-gray-50 hover:bg-gray-50">
                             <div>

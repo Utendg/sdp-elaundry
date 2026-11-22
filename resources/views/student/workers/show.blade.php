@@ -4,8 +4,8 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900">{{ $worker->name }}</h3>
@@ -28,7 +28,7 @@
                 @endif
             </div>
 
-            <div class="bg-white shadow-sm sm:rounded-lg">
+            <div class="bg-white shadow-sm rounded-lg">
                 <div class="px-6 py-4 border-b border-gray-100">
                     <h3 class="font-semibold text-gray-900">Recent reviews</h3>
                 </div>

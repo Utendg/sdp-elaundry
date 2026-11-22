@@ -7,9 +7,9 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <div class="grid grid-cols-2 gap-4 text-sm">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
                     <div><span class="text-gray-500">Student:</span> <span class="font-medium">{{ $order->student?->name }}</span> ({{ $order->student?->phone ?? 'no phone' }})</div>
                     <div><span class="text-gray-500">Worker:</span> <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
                     <div><span class="text-gray-500">Dorm:</span> <span class="font-medium">{{ $order->dorm?->name ?? '—' }}</span></div>
@@ -20,7 +20,8 @@
                     <div class="mt-4 text-sm"><span class="text-gray-500">Instructions:</span> {{ $order->notes }}</div>
                 @endif
 
-                <table class="mt-4 w-full text-sm">
+                <div class="overflow-x-auto -mx-1 px-1">
+                <table data-scroll class="mt-4 w-full text-sm">
                     <thead><tr class="text-left text-gray-500 border-b"><th class="py-2">Item</th><th class="py-2 text-center">Qty</th><th class="py-2 text-right">Total</th></tr></thead>
                     <tbody>
                         @foreach ($order->items as $item)
@@ -29,10 +30,11 @@
                     </tbody>
                     <tfoot><tr><td colspan="2" class="py-2 text-right font-semibold">Total</td><td class="py-2 text-right font-bold text-aun-navy">₦{{ number_format((float) $order->total_price) }}</td></tr></tfoot>
                 </table>
+                </div>
             </div>
 
             @if ($order->ratings->isNotEmpty())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-white shadow-sm rounded-lg p-6">
                     <h3 class="font-semibold text-gray-900 mb-3">Ratings</h3>
                     @foreach ($order->ratings as $rating)
                         <div class="flex items-center gap-2 mb-1">
@@ -45,7 +47,7 @@
             @endif
 
             @if ($order->complaints->isNotEmpty())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-white shadow-sm rounded-lg p-6">
                     <h3 class="font-semibold text-gray-900 mb-3">Complaints on this order</h3>
                     @foreach ($order->complaints as $c)
                         <div class="text-sm border-b border-gray-50 py-2">
@@ -57,7 +59,7 @@
             @endif
 
             @if ($order->workerNotes->isNotEmpty())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-white shadow-sm rounded-lg p-6">
                     <h3 class="font-semibold text-gray-900 mb-3">Worker notes</h3>
                     @foreach ($order->workerNotes as $note)
                         <div class="border-t border-gray-100 py-2 text-sm first:border-t-0">
@@ -68,7 +70,7 @@
                 </div>
             @endif
 
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <h3 class="font-semibold text-gray-900 mb-3">History</h3>
                 <ul class="space-y-2">
                     @foreach ($order->statusHistory as $entry)

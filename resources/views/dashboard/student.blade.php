@@ -4,15 +4,15 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
 
             <!-- Welcome / quick action -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="bg-white shadow-sm rounded-lg p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900">Hello, {{ Auth::user()->name }} 👋</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">Hello, {{ Auth::user()->name }} <x-icon name="basket" class="w-6 h-6" /></h3>
                     <p class="text-gray-600">You have <span class="font-semibold">{{ $activeCount }}</span> active order(s).</p>
                 </div>
                 <a href="{{ route('student.workers.index') }}"
@@ -22,7 +22,7 @@
             </div>
 
             <!-- Recent orders -->
-            <div class="bg-white shadow-sm sm:rounded-lg">
+            <div class="bg-white shadow-sm rounded-lg">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                     <h3 class="font-semibold text-gray-900">Recent orders</h3>
                     <a href="{{ route('student.orders.index') }}" class="text-sm text-aun-navy hover:underline">View all</a>

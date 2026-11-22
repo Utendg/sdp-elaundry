@@ -14,14 +14,14 @@
     @endphp
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
             <x-input-error :messages="$errors->all()" />
 
             <!-- Tracking timeline -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 @if ($isClosedAbnormally)
                     <div class="text-center py-4">
                         <x-order-status-badge :status="$order->status" class="text-sm" />
@@ -49,8 +49,8 @@
             </div>
 
             <!-- Summary -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                <div class="grid grid-cols-2 gap-4 text-sm">
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
                     <div><span class="text-gray-500">Worker:</span> <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
                     @if ($order->worker?->phone && ! in_array($order->status, ['pending', 'cancelled', 'rejected'], true))
                         <div><span class="text-gray-500">Worker phone:</span> <a href="tel:{{ $order->worker->phone }}" class="font-medium text-aun-navy hover:underline">{{ $order->worker->phone }}</a></div>
@@ -70,7 +70,8 @@
                 @endif
 
                 <!-- Items -->
-                <table class="mt-4 w-full text-sm">
+                <div class="overflow-x-auto -mx-1 px-1">
+                <table data-scroll class="mt-4 w-full text-sm">
                     <thead>
                         <tr class="text-left text-gray-500 border-b">
                             <th class="py-2">Item</th>
@@ -96,11 +97,12 @@
                         </tr>
                     </tfoot>
                 </table>
+                </div>
             </div>
 
             <!-- Actions -->
             @if (in_array($order->status, ['pending', 'accepted'], true))
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-white shadow-sm rounded-lg p-6">
                     <form method="POST" action="{{ route('student.orders.cancel', $order) }}"
                           onsubmit="return confirm('Cancel this order?')">
                         @csrf
@@ -116,7 +118,7 @@
 
             <!-- Rating (after completion) -->
             @if ($order->isCompleted())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-white shadow-sm rounded-lg p-6">
                     <h3 class="font-semibold text-gray-900 mb-3">Rate your worker</h3>
                     @if ($studentRating)
                         <div class="flex items-center gap-2">
@@ -148,7 +150,7 @@
             @endif
 
             <!-- File a complaint -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6" x-data="{ open: false }">
+            <div class="bg-white shadow-sm rounded-lg p-6" x-data="{ open: false }">
                 <button @click="open = !open" class="text-sm text-red-600 hover:underline">Report a problem with this order</button>
                 <form x-show="open" x-cloak method="POST" action="{{ route('student.complaints.store') }}" class="mt-4 space-y-3">
                     @csrf
@@ -169,7 +171,7 @@
 
             <!-- Notes from the worker -->
             @if ($order->workerNotes->isNotEmpty())
-                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <div class="bg-white shadow-sm rounded-lg p-6">
                     <h3 class="font-semibold text-gray-900 mb-3">Notes from your worker</h3>
                     @foreach ($order->workerNotes as $note)
                         <div class="border-t border-gray-100 py-2 text-sm first:border-t-0">
@@ -181,7 +183,7 @@
             @endif
 
             <!-- Status history -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <h3 class="font-semibold text-gray-900 mb-3">History</h3>
                 <ul class="space-y-2">
                     @foreach ($order->statusHistory as $entry)

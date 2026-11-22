@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
@@ -23,7 +23,7 @@
                     <a href="{{ route('worker.profile.edit') }}" class="underline">your profile</a> in the meantime.
                 </div>
             @else
-                <div class="bg-white shadow-sm sm:rounded-lg p-4 flex items-center justify-between">
+                <div class="bg-white shadow-sm rounded-lg p-4 flex items-center justify-between">
                     <div>
                         <span class="text-sm text-gray-500">Availability</span>
                         <div class="font-semibold {{ $profile->is_available ? 'text-green-700' : 'text-gray-600' }}">
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <div class="bg-white shadow-sm sm:rounded-lg">
+            <div class="bg-white shadow-sm rounded-lg">
                 <div class="px-6 py-4 border-b border-gray-100">
                     <h3 class="font-semibold text-gray-900">Recent orders</h3>
                 </div>

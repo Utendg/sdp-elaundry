@@ -3,6 +3,7 @@
     iPhone/iPad Safari shows how to add it with Share > Add to Home Screen. Hidden once installed or dismissed.
 --}}
 <div x-data="installBanner()" x-init="init()" x-show="visible" x-cloak
+     x-effect="document.body.style.paddingBottom = visible ? '9rem' : ''"
      class="fixed inset-x-0 bottom-0 z-50 p-3 sm:p-4" role="dialog" aria-label="Install AUN E-Laundry">
     <div class="mx-auto max-w-xl bg-white border border-gray-200 shadow-lg rounded-xl p-4 flex items-start gap-3">
         <img src="{{ asset('icons/icon-192.png') }}" alt="" class="w-11 h-11 rounded-lg shrink-0">

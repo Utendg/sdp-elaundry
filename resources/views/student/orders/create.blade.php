@@ -4,8 +4,8 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="mb-4 pb-4 border-b border-gray-100">
                     <div class="text-sm text-gray-500">Booking</div>
                     <div class="font-semibold text-gray-900">{{ $worker->name }} · {{ $worker->dorm?->name }}</div>

@@ -4,13 +4,13 @@
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
 
             <!-- Status + availability -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6 flex items-center justify-between">
+            <div class="bg-white shadow-sm rounded-lg p-6 flex items-center justify-between">
                 <div>
                     <div class="text-sm text-gray-500">Approval status</div>
                     @if ($profile->is_approved)
@@ -46,7 +46,7 @@
             </div>
 
             <!-- Edit form -->
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white shadow-sm rounded-lg p-6">
                 <form method="POST" action="{{ route('worker.profile.update') }}" class="space-y-4">
                     @csrf
                     @method('PATCH')
