@@ -20,7 +20,7 @@
             <!-- Customer + items -->
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
-                    <div><span class="text-gray-500">Student:</span> <span class="font-medium">{{ $order->student?->name }}</span></div>
+                    <div class="flex items-center gap-2"><span class="text-gray-500">Student:</span> @if ($order->student)<x-avatar :user="$order->student" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->student?->name }}</span></div>
                     <div><span class="text-gray-500">Phone:</span> <span class="font-medium">{{ $order->student?->phone ?? '—' }}</span></div>
                     <div><span class="text-gray-500">Placed:</span> <span class="font-medium">{{ $order->created_at->format('d M Y, g:i A') }}</span></div>
                     @if ($order->pickup_location)

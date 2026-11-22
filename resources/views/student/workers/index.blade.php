@@ -23,9 +23,12 @@
                     @foreach ($workers as $worker)
                         <div class="bg-white shadow-sm rounded-lg p-5 flex flex-col">
                             <div class="flex items-center justify-between">
-                                <div>
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <x-avatar :user="$worker" size="w-12 h-12" />
+                                    <div class="min-w-0">
                                     <div class="font-semibold text-gray-900">{{ $worker->name }}</div>
                                     <div class="text-sm text-gray-500">{{ $worker->dorm?->name ?? '—' }}</div>
+                                    </div>
                                 </div>
                                 @if (! $worker->workerProfile->is_available)
                                     <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">Busy</span>

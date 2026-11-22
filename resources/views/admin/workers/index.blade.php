@@ -19,9 +19,21 @@
                     @forelse ($pending as $worker)
                         <div class="px-6 py-4 border-b border-gray-50" x-data="{ declining: false }">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
-                                <div>
-                                    <div class="font-medium text-gray-900">{{ $worker->name }}</div>
-                                    <div class="text-sm text-gray-500">{{ $worker->email }} · {{ $worker->dorm?->name ?? 'No dorm' }} · {{ $worker->phone ?? 'No phone' }}</div>
+                                <div class="flex items-center gap-4 min-w-0">
+                                    @if ($worker->hasAvatar())
+                                        <a href="{{ $worker->avatarUrl() }}" target="_blank" rel="noopener" title="Open full photo">
+                                            <x-avatar :user="$worker" size="w-16 h-16" />
+                                        </a>
+                                    @else
+                                        <x-avatar :user="$worker" size="w-16 h-16" />
+                                    @endif
+                                    <div class="min-w-0">
+                                        <div class="font-medium text-gray-900">{{ $worker->name }}</div>
+                                        <div class="text-sm text-gray-500 break-all">{{ $worker->email }} · {{ $worker->dorm?->name ?? 'No dorm' }} · {{ $worker->phone ?? 'No phone' }}</div>
+                                        @unless ($worker->hasAvatar())
+                                            <div class="mt-1 text-xs text-amber-700">No profile photo yet. A photo is needed before approval.</div>
+                                        @endunless
+                                    </div>
                                 </div>
                                 <div class="flex flex-wrap items-center gap-2 shrink-0">
                                     <form method="POST" action="{{ route('admin.workers.approve', $worker) }}">
@@ -51,12 +63,15 @@
                 <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                     @forelse ($approved as $worker)
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 sm:px-6 py-4 border-b border-gray-50">
-                            <div>
+                            <div class="flex items-center gap-3">
+                                <x-avatar :user="$worker" />
+                                <div>
                                 <div class="font-medium text-gray-900">{{ $worker->name }}</div>
                                 <div class="text-sm text-gray-500">
                                     {{ $worker->dorm?->name ?? '—' }} ·
                                     <x-stars :value="$worker->workerProfile->rating_avg" :count="$worker->workerProfile->ratings_count" class="align-middle" /> ·
                                     {{ $worker->workerProfile->orders_completed }} completed
+                                </div>
                                 </div>
                             </div>
                             <form method="POST" action="{{ route('admin.workers.revoke', $worker) }}" onsubmit="return confirm('Revoke approval for {{ $worker->name }}?')">

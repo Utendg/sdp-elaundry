@@ -10,8 +10,8 @@
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
-                    <div><span class="text-gray-500">Student:</span> <span class="font-medium">{{ $order->student?->name }}</span> ({{ $order->student?->phone ?? 'no phone' }})</div>
-                    <div><span class="text-gray-500">Worker:</span> <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
+                    <div class="flex flex-wrap items-center gap-2"><span class="text-gray-500">Student:</span> @if ($order->student)<x-avatar :user="$order->student" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->student?->name }}</span> ({{ $order->student?->phone ?? 'no phone' }})</div>
+                    <div class="flex items-center gap-2"><span class="text-gray-500">Worker:</span> @if ($order->worker)<x-avatar :user="$order->worker" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
                     <div><span class="text-gray-500">Dorm:</span> <span class="font-medium">{{ $order->dorm?->name ?? '—' }}</span></div>
                     <div><span class="text-gray-500">Placed:</span> <span class="font-medium">{{ $order->created_at->format('d M Y, g:i A') }}</span></div>
                 </div>

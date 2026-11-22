@@ -91,4 +91,56 @@ document.addEventListener('DOMContentLoaded', enhancePasswords);
 // fields that appear later (e.g. the "New admin account" form opened with Alpine)
 new MutationObserver(enhancePasswords).observe(document.documentElement, { childList: true, subtree: true });
 
+// ----- Profile photo picker --------------------------------------------------------------
+// Shows a preview and shrinks the photo to at most 512px (JPEG) before it is uploaded,
+// so phone photos of several MB become a few dozen KB. If the browser cannot read the
+// image, the original file is sent and the server validates it.
+const AVATAR_MAX = 512;
+
+function shrinkImage(file) {
+    return new Promise(resolve => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+            const scale = Math.min(1, AVATAR_MAX / Math.max(img.width, img.height));
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+            URL.revokeObjectURL(url);
+            canvas.toBlob(blob => {
+                if (!blob) return resolve(file);
+                const name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+                resolve(new File([blob], name, { type: 'image/jpeg' }));
+            }, 'image/jpeg', 0.85);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+        img.src = url;
+    });
+}
+
+document.addEventListener('change', async event => {
+    const input = event.target;
+    if (!input.matches?.('input[data-avatar-input]') || !input.files?.length) return;
+
+    const field = input.closest('[data-avatar-field]');
+    const original = input.files[0];
+    const file = original.type.startsWith('image/') ? await shrinkImage(original) : original;
+
+    if (file !== original && window.DataTransfer) {
+        const transfer = new DataTransfer();
+        transfer.items.add(file);
+        input.files = transfer.files;
+    }
+
+    const preview = field?.querySelector('[data-avatar-preview]');
+    if (preview) {
+        preview.src = URL.createObjectURL(file);
+        preview.classList.remove('hidden');
+        field.querySelector('[data-avatar-placeholder]')?.classList.add('hidden');
+    }
+    const label = field?.querySelector('[data-avatar-filename]');
+    if (label) label.textContent = original.name;
+});
+
 Alpine.start();

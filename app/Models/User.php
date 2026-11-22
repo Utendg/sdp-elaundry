@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -65,7 +66,43 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'avatar_updated_at' => 'datetime',
         ];
+    }
+
+    // ----- Profile photo --------------------------------------------------
+
+    public function avatar(): HasOne
+    {
+        return $this->hasOne(UserAvatar::class);
+    }
+
+    public function hasAvatar(): bool
+    {
+        return $this->avatar_updated_at !== null;
+    }
+
+    /** URL of the photo, or null when the user has none. Changes whenever the photo changes. */
+    public function avatarUrl(): ?string
+    {
+        return $this->hasAvatar()
+            ? route('avatars.show', ['user' => $this->id, 'v' => $this->avatar_updated_at->timestamp])
+            : null;
+    }
+
+    public function setAvatar(UploadedFile $file): void
+    {
+        $this->avatar()->updateOrCreate([], [
+            'mime' => $file->getMimeType(),
+            'data' => base64_encode($file->get()),
+        ]);
+        $this->forceFill(['avatar_updated_at' => now()])->save();
+    }
+
+    public function removeAvatar(): void
+    {
+        $this->avatar()->delete();
+        $this->forceFill(['avatar_updated_at' => null])->save();
     }
 
     // ----- Role helpers -------------------------------------------------

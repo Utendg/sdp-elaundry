@@ -7,13 +7,16 @@
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="flex items-start justify-between">
-                    <div>
+                    <div class="flex items-start gap-4">
+                        <x-avatar :user="$worker" size="w-20 h-20" text="text-xl" />
+                        <div>
                         <h3 class="text-lg font-semibold text-gray-900">{{ $worker->name }}</h3>
                         <div class="text-sm text-gray-500">{{ $worker->dorm?->name ?? '—' }}</div>
                         <div class="mt-2">
                             <x-stars :value="$worker->workerProfile->rating_avg" :count="$worker->workerProfile->ratings_count" />
                         </div>
                         <div class="mt-1 text-sm text-gray-500">{{ $worker->workerProfile->orders_completed }} orders completed</div>
+                        </div>
                     </div>
                     @if ($worker->workerProfile->is_available)
                         <a href="{{ route('student.orders.create', ['worker' => $worker->id]) }}"

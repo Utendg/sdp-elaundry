@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\Controller;
 use App\Models\AdminPermission;
 use App\Models\Dorm;
@@ -46,6 +47,11 @@ class RegisteredUserController extends Controller
             'phone' => ['nullable', 'string', 'max:30'],
             'dorm_id' => ['required', Rule::exists('dorms', 'id')],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            // Workers must show a real photo of themselves; students may add one if they like.
+            'avatar' => AvatarController::rules($request->input('role') === User::ROLE_WORKER),
+        ], [
+            'avatar.required' => 'Laundry workers must upload a clear photo of their face.',
+            'avatar.dimensions' => 'The photo must be at least 200 by 200 pixels.',
         ]);
 
         $user = User::create([
@@ -56,6 +62,10 @@ class RegisteredUserController extends Controller
             'dorm_id' => $validated['dorm_id'],
             'password' => Hash::make($validated['password']),
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $user->setAvatar($request->file('avatar'));
+        }
 
         // Workers start unapproved and must be vetted by an admin before taking orders.
         if ($user->isWorker()) {

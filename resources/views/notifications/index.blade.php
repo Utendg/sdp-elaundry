@@ -2,12 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Notifications') }}</h2>
-            @if (Auth::user()->unreadNotifications()->exists())
-                <form method="POST" action="{{ route('notifications.readAll') }}">
-                    @csrf
-                    <button class="text-sm text-aun-navy hover:underline">Mark all read</button>
-                </form>
-            @endif
+
         </div>
     </x-slot>
 
@@ -20,9 +15,9 @@
             <div class="bg-white shadow-sm rounded-lg overflow-hidden">
                 @forelse ($notifications as $note)
                     <a href="{{ route('notifications.read', $note->id) }}"
-                       class="block px-6 py-4 border-b border-gray-50 hover:bg-gray-50 {{ is_null($note->read_at) ? 'bg-orange-50/40' : '' }}">
+                       class="block px-6 py-4 border-b border-gray-50 hover:bg-gray-50 {{ in_array($note->id, $newIds) ? 'bg-orange-50/40' : '' }}">
                         <div class="flex items-start gap-3">
-                            @if (is_null($note->read_at))
+                            @if (in_array($note->id, $newIds))
                                 <span class="mt-1.5 h-2 w-2 rounded-full bg-aun-navy shrink-0"></span>
                             @else
                                 <span class="mt-1.5 h-2 w-2 rounded-full bg-transparent shrink-0"></span>

@@ -9,6 +9,16 @@
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
 
+            @unless (Auth::user()->hasAvatar())
+                <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-start gap-3">
+                        <x-heroicon-o-camera class="w-6 h-6 shrink-0" aria-hidden="true" />
+                        <div><strong>Add a photo of yourself.</strong> Every laundry worker needs a clear profile photo so students can recognise who collects their clothes.</div>
+                    </div>
+                    <a href="{{ route('profile.edit') }}" class="shrink-0 px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light text-center">Upload photo</a>
+                </div>
+            @endunless
+
             @if ($profile?->isDeclined())
                 <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
                     <strong>Your laundry worker application was declined.</strong>

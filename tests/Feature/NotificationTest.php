@@ -68,3 +68,33 @@ it("forbids reading another user's notification", function () {
 it('renders the public landing page', function () {
     $this->get('/')->assertOk()->assertSee('E-Laundry');
 });
+
+it('marks notifications read once the list is opened, while still highlighting the new ones', function () {
+    $order = Order::create([
+        'student_id' => $this->student->id, 'worker_id' => $this->worker->id,
+        'dorm_id' => $this->dorm->id, 'status' => 'accepted', 'total_price' => 100,
+    ]);
+    $this->student->notify(new OrderStatusChanged($order, 'accepted'));
+    $this->student->notify(new OrderStatusChanged($order, 'washing'));
+    expect($this->student->unreadNotifications()->count())->toBe(2);
+
+    actingAs($this->student)->get(route('notifications.index'))
+        ->assertOk()
+        ->assertViewHas('newIds', fn ($ids) => count($ids) === 2);
+
+    expect($this->student->unreadNotifications()->count())->toBe(0);
+});
+
+it('marks notifications read quietly when the bell menu is opened', function () {
+    $order = Order::create([
+        'student_id' => $this->student->id, 'worker_id' => $this->worker->id,
+        'dorm_id' => $this->dorm->id, 'status' => 'accepted', 'total_price' => 100,
+    ]);
+    $this->student->notify(new OrderStatusChanged($order, 'accepted'));
+
+    actingAs($this->student)->postJson(route('notifications.readAll'))
+        ->assertOk()
+        ->assertJson(['unread' => 0]);
+
+    expect($this->student->unreadNotifications()->count())->toBe(0);
+});

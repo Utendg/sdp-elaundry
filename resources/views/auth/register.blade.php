@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" x-data="{ role: @js(old('role', 'student')) }">
         @csrf
 
         <!-- Name -->
@@ -19,7 +19,7 @@
         <!-- I am a... (role) -->
         <div class="mt-4">
             <x-input-label for="role" :value="__('I am a')" />
-            <select id="role" name="role" required
+            <select id="role" name="role" required x-model="role"
                 class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-aun-navy dark:focus:border-indigo-600 focus:ring-aun-orange dark:focus:ring-indigo-600 rounded-md shadow-sm">
                 <option value="student" @selected(old('role') === 'student')>{{ __('Student: I need laundry done') }}</option>
                 <option value="worker" @selected(old('role') === 'worker')>{{ __('Laundry worker: I provide the service') }}</option>
@@ -46,6 +46,17 @@
             <x-input-label for="phone" :value="__('Phone number (optional)')" />
             <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" autocomplete="tel" />
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+
+        <!-- Profile photo: required for workers, optional for students -->
+        <div class="mt-4">
+            <x-input-label for="avatar">
+                Profile photo
+                <span class="font-normal text-gray-500" x-text="role === 'worker' ? '(required)' : '(optional)'"></span>
+            </x-input-label>
+            <p class="mt-1 mb-2 text-xs text-gray-500" x-show="role === 'worker'">A clear, recent photo of your own face. Admins check it before approving your account, and students see it when you collect their clothes.</p>
+            <x-avatar-input id="avatar" x-bind:required="role === 'worker'" />
+            <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
         </div>
 
         <!-- Password -->

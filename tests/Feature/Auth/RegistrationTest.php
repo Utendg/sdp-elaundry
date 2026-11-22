@@ -36,6 +36,7 @@ test('workers register with an unapproved profile', function () {
         'email' => 'worker@example.com',
         'role' => 'worker',
         'dorm_id' => $dorm->id,
+        'avatar' => fakePhoto(),
         'password' => 'password',
         'password_confirmation' => 'password',
     ]);
@@ -72,6 +73,7 @@ test('a new worker registration notifies the admins responsible for workers', fu
         'email' => 'newworker@example.com',
         'role' => 'worker',
         'dorm_id' => $dorm->id,
+        'avatar' => fakePhoto(),
         'password' => 'password',
         'password_confirmation' => 'password',
     ]);

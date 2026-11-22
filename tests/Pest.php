@@ -48,3 +48,9 @@ function something()
 {
     // ..
 }
+
+/** A real 240x240 PNG, built without GD so the tests run on any PHP install. */
+function fakePhoto(string $fixture = 'photo.png'): \Illuminate\Http\UploadedFile
+{
+    return \Illuminate\Http\UploadedFile::fake()->createWithContent($fixture, file_get_contents(__DIR__.'/fixtures/'.$fixture));
+}

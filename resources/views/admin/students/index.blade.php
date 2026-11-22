@@ -37,9 +37,12 @@
                     </div>
                     @foreach ($group['students'] as $student)
                         <div class="px-4 sm:px-6 py-3 border-b border-gray-50 last:border-b-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-4">
-                            <div class="min-w-0">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <x-avatar :user="$student" size="w-9 h-9" text="text-xs" />
+                                <div class="min-w-0">
                                 <div class="font-medium text-gray-900 {{ $student->is_active ? '' : 'line-through text-gray-400' }}">{{ $student->name }}</div>
                                 <div class="text-sm text-gray-500 break-all">{{ $student->email }} · {{ $student->phone ?? 'No phone' }}</div>
+                                </div>
                             </div>
                             <div class="text-sm text-gray-500 shrink-0">
                                 {{ $student->orders_as_student_count }} {{ \Illuminate\Support\Str::plural('order', $student->orders_as_student_count) }}

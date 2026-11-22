@@ -51,7 +51,7 @@
             <!-- Summary -->
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
-                    <div><span class="text-gray-500">Worker:</span> <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
+                    <div class="flex items-center gap-2"><span class="text-gray-500">Worker:</span> @if ($order->worker)<x-avatar :user="$order->worker" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
                     @if ($order->worker?->phone && ! in_array($order->status, ['pending', 'cancelled', 'rejected'], true))
                         <div><span class="text-gray-500">Worker phone:</span> <a href="tel:{{ $order->worker->phone }}" class="font-medium text-aun-navy hover:underline">{{ $order->worker->phone }}</a></div>
                     @endif

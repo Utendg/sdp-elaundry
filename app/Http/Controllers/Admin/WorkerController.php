@@ -33,6 +33,11 @@ class WorkerController extends Controller
     {
         abort_unless($worker->isWorker(), 404);
 
+        // The photo is how students recognise the person collecting their clothes.
+        if (! $worker->hasAvatar()) {
+            return back()->withErrors(['approve' => "{$worker->name} has no profile photo yet. Ask them to upload one from their profile before approving."]);
+        }
+
         $profile = $worker->workerProfile
             ?? WorkerProfile::create(['user_id' => $worker->id, 'is_approved' => false]);
 

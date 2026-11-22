@@ -73,35 +73,31 @@
 
             <!-- Notification bell + Settings -->
             <div class="hidden sm:flex sm:items-center sm:ms-6 gap-2">
-                @php $unread = Auth::user()->unreadNotifications()->take(8)->get(); $unreadCount = Auth::user()->unreadNotifications()->count(); @endphp
-                <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="relative p-2 text-white/80 hover:text-white focus:outline-none">
+                @php $recent = Auth::user()->notifications()->take(8)->get(); $unreadCount = Auth::user()->unreadNotifications()->count(); @endphp
+                {{-- Opening the bell counts as reading: the badge clears and the server marks them read. --}}
+                <div class="relative" x-data="{ open: false, unread: {{ $unreadCount }} }">
+                    <button @click="open = !open; if (open && unread > 0) { unread = 0; window.axios.post('{{ route('notifications.readAll') }}', {}, { headers: { Accept: 'application/json' } }).catch(() => {}); }"
+                            class="relative p-2 text-white/80 hover:text-white focus:outline-none" aria-label="Notifications">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
                         @if ($unreadCount > 0)
-                            <span class="absolute top-1 right-1 inline-flex items-center justify-center h-4 min-w-4 px-1 text-[10px] font-bold text-white bg-red-600 rounded-full">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                            <span x-show="unread > 0" class="absolute top-1 right-1 inline-flex items-center justify-center h-4 min-w-4 px-1 text-[10px] font-bold text-white bg-red-600 rounded-full">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
                         @endif
                     </button>
                     <div x-show="open" x-cloak @click.outside="open = false"
                          class="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg border border-gray-100 z-50">
                         <div class="flex items-center justify-between px-4 py-2 border-b border-gray-100">
                             <span class="font-semibold text-sm text-gray-900">Notifications</span>
-                            @if ($unreadCount > 0)
-                                <form method="POST" action="{{ route('notifications.readAll') }}">
-                                    @csrf
-                                    <button class="text-xs text-aun-navy hover:underline">Mark all read</button>
-                                </form>
-                            @endif
                         </div>
                         <div class="max-h-80 overflow-y-auto">
-                            @forelse ($unread as $note)
-                                <a href="{{ route('notifications.read', $note->id) }}" class="block px-4 py-3 border-b border-gray-50 hover:bg-gray-50">
-                                    <div class="text-sm text-gray-800">{{ $note->data['message'] ?? 'Notification' }}</div>
+                            @forelse ($recent as $note)
+                                <a href="{{ route('notifications.read', $note->id) }}" class="block px-4 py-3 border-b border-gray-50 hover:bg-gray-50 {{ is_null($note->read_at) ? 'bg-orange-50/60' : '' }}">
+                                    <div class="text-sm {{ is_null($note->read_at) ? 'text-gray-900 font-medium' : 'text-gray-700' }}">{{ $note->data['message'] ?? 'Notification' }}</div>
                                     <div class="text-xs text-gray-400 mt-0.5">{{ $note->created_at->diffForHumans() }}</div>
                                 </a>
                             @empty
-                                <div class="px-4 py-6 text-center text-sm text-gray-500">You're all caught up.</div>
+                                <div class="px-4 py-6 text-center text-sm text-gray-500">No notifications yet.</div>
                             @endforelse
                         </div>
                         <a href="{{ route('notifications.index') }}" class="block px-4 py-2 text-center text-xs text-aun-navy hover:underline border-t border-gray-100">View all</a>
@@ -111,6 +107,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white/80 bg-transparent hover:text-white focus:outline-none transition ease-in-out duration-150">
+                            <x-avatar :user="Auth::user()" size="w-8 h-8" text="text-xs" class="me-2 ring-2 ring-white/30" />
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ms-1">
@@ -214,9 +211,12 @@
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            <div class="px-4 flex items-center gap-3">
+                <x-avatar :user="Auth::user()" />
+                <div class="min-w-0">
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-gray-500 truncate">{{ Auth::user()->email }}</div>
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">

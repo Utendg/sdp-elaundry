@@ -18,6 +18,7 @@ beforeEach(function () {
     $this->student = User::factory()->create(['role' => User::ROLE_STUDENT, 'dorm_id' => $this->dorm->id]);
     $this->worker = User::factory()->create(['role' => User::ROLE_WORKER, 'dorm_id' => $this->dorm->id]);
     $this->profile = WorkerProfile::create(['user_id' => $this->worker->id, 'is_approved' => false]);
+    $this->worker->setAvatar(fakePhoto());
 });
 
 it('blocks non-admins from the admin area', function () {
