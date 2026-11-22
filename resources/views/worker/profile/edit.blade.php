@@ -23,7 +23,7 @@
                     <form method="POST" action="{{ route('worker.profile.availability') }}">
                         @csrf
                         <button class="px-3 py-2 text-sm rounded-md border {{ $profile->is_available ? 'border-gray-300 hover:bg-gray-50' : 'bg-green-600 text-white hover:bg-green-700' }}">
-                            {{ $profile->is_available ? 'Currently available — go busy' : 'Currently busy — go available' }}
+                            {{ $profile->is_available ? 'Available. Switch to busy' : 'Busy. Switch to available' }}
                         </button>
                     </form>
                 @endif

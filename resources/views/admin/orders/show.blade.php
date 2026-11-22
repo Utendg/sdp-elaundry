@@ -38,9 +38,9 @@
                     <h3 class="font-semibold text-gray-900 mb-3">Ratings</h3>
                     @foreach ($order->ratings as $rating)
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="text-xs text-gray-500 w-40">{{ $rating->direction === 'student_to_worker' ? 'Student → Worker' : 'Worker → Student' }}</span>
+                            <span class="text-xs text-gray-500 w-40">{{ $rating->direction === 'student_to_worker' ? 'Student to worker' : 'Worker to student' }}</span>
                             <x-stars :value="$rating->stars" />
-                            @if ($rating->comment)<span class="text-sm text-gray-600">— {{ $rating->comment }}</span>@endif
+                            @if ($rating->comment)<span class="text-sm text-gray-600">{{ $rating->comment }}</span>@endif
                         </div>
                     @endforeach
                 </div>
@@ -51,7 +51,7 @@
                     <h3 class="font-semibold text-gray-900 mb-3">Complaints on this order</h3>
                     @foreach ($order->complaints as $c)
                         <div class="text-sm border-b border-gray-50 py-2">
-                            <span class="font-medium">{{ $c->subject }}</span> — {{ $c->description }}
+                            <span class="font-medium">{{ $c->subject }}:</span> {{ $c->description }}
                             <a href="{{ route('admin.complaints.index') }}" class="text-aun-navy hover:underline">manage</a>
                         </div>
                     @endforeach
@@ -78,14 +78,14 @@
                             <span class="text-gray-400 whitespace-nowrap">{{ $entry->created_at->format('d M, g:i A') }}</span>
                             <div><x-order-status-badge :status="$entry->status" />
                                 @if ($entry->changedBy)<span class="text-gray-500"> by {{ $entry->changedBy->name }}</span>@endif
-                                @if ($entry->note)<span class="text-gray-600"> — {{ $entry->note }}</span>@endif
+                                @if ($entry->note)<span class="text-gray-600">: {{ $entry->note }}</span>@endif
                             </div>
                         </li>
                     @endforeach
                 </ul>
             </div>
 
-            <a href="{{ route('admin.orders.index') }}" class="text-sm text-aun-navy hover:underline">← Back to orders</a>
+            <a href="{{ route('admin.orders.index') }}" class="inline-flex items-center gap-1 text-sm text-aun-navy hover:underline"><x-heroicon-m-arrow-left class="w-4 h-4" aria-hidden="true" /> Back to orders</a>
         </div>
     </div>
 </x-app-layout>

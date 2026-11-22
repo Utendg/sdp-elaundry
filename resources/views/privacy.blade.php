@@ -54,11 +54,11 @@
             </section>
         </div>
 
-        <a href="{{ url('/') }}" class="mt-10 inline-block text-sm text-aun-navy hover:underline">← Back to home</a>
+        <a href="{{ url('/') }}" class="mt-10 inline-flex items-center gap-1 text-sm text-aun-navy hover:underline"><x-heroicon-m-arrow-left class="w-4 h-4" aria-hidden="true" /> Back to home</a>
     </main>
 
     <footer class="bg-aun-navy text-white/60 text-center text-sm py-6">
-        AUN E-Laundry — American University of Nigeria, Yola.
+        AUN E-Laundry, American University of Nigeria, Yola.
     </footer>
 </body>
 </html>

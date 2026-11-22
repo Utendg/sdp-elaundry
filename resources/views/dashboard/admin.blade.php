@@ -63,7 +63,7 @@
                             <div>
                                 <div class="font-medium text-gray-900">{{ $order->reference }}</div>
                                 <div class="text-sm text-gray-500">
-                                    {{ $order->student?->name }} → {{ $order->worker?->name ?? 'Unassigned' }} · ₦{{ number_format((float) $order->total_price) }}
+                                    {{ $order->student?->name }} <x-heroicon-m-arrow-right class="inline w-3.5 h-3.5 -mt-0.5" aria-label="to" /> {{ $order->worker?->name ?? 'Unassigned' }} · ₦{{ number_format((float) $order->total_price) }}
                                 </div>
                             </div>
                             <x-order-status-badge :status="$order->status" />

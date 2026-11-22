@@ -129,7 +129,7 @@
                             @csrf
                             <div class="flex items-center gap-1 mb-3">
                                 <template x-for="n in 5" :key="n">
-                                    <button type="button" @click="stars = n" class="text-2xl" :class="n <= stars ? 'text-amber-400' : 'text-gray-300'">★</button>
+                                    <button type="button" @click="stars = n" class="p-0.5" :class="n <= stars ? 'text-amber-400' : 'text-gray-300'" :aria-label="n + ' out of 5'"><x-heroicon-s-star class="w-7 h-7" aria-hidden="true" /></button>
                                 </template>
                                 <input type="hidden" name="stars" :value="stars">
                             </div>
@@ -147,13 +147,13 @@
                     @foreach ($order->statusHistory as $entry)
                         <li class="flex items-start gap-3 text-sm">
                             <span class="text-gray-400 whitespace-nowrap">{{ $entry->created_at->format('d M, g:i A') }}</span>
-                            <div><x-order-status-badge :status="$entry->status" />@if ($entry->note)<span class="text-gray-600"> — {{ $entry->note }}</span>@endif</div>
+                            <div><x-order-status-badge :status="$entry->status" />@if ($entry->note)<span class="text-gray-600">: {{ $entry->note }}</span>@endif</div>
                         </li>
                     @endforeach
                 </ul>
             </div>
 
-            <a href="{{ route('worker.orders.index') }}" class="text-sm text-aun-navy hover:underline">← Back to orders</a>
+            <a href="{{ route('worker.orders.index') }}" class="inline-flex items-center gap-1 text-sm text-aun-navy hover:underline"><x-heroicon-m-arrow-left class="w-4 h-4" aria-hidden="true" /> Back to orders</a>
         </div>
     </div>
 </x-app-layout>

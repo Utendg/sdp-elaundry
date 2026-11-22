@@ -39,7 +39,7 @@
                                 @endunless
                                 <div class="relative z-10 w-6 h-6 rounded-full flex items-center justify-center text-xs
                                             {{ $done ? 'bg-aun-navy text-white' : 'bg-gray-200 text-gray-500' }}">
-                                    @if ($done) ✓ @else {{ $loop->iteration }} @endif
+                                    @if ($done) <x-heroicon-m-check class="w-4 h-4" aria-label="done" /> @else {{ $loop->iteration }} @endif
                                 </div>
                                 <span class="mt-1 text-[10px] sm:text-xs text-center {{ $done ? 'text-aun-navy font-medium' : 'text-gray-400' }}">{{ $label }}</span>
                             </li>
@@ -134,7 +134,7 @@
                             <div class="flex items-center gap-1 mb-3">
                                 <template x-for="n in 5" :key="n">
                                     <button type="button" @click="stars = n"
-                                            class="text-2xl" :class="n <= stars ? 'text-amber-400' : 'text-gray-300'">★</button>
+                                            class="p-0.5" :class="n <= stars ? 'text-amber-400' : 'text-gray-300'" :aria-label="n + ' out of 5'"><x-heroicon-s-star class="w-7 h-7" aria-hidden="true" /></button>
                                 </template>
                                 <input type="hidden" name="stars" :value="stars">
                             </div>
@@ -191,14 +191,14 @@
                             <span class="text-gray-400 whitespace-nowrap">{{ $entry->created_at->format('d M, g:i A') }}</span>
                             <div>
                                 <x-order-status-badge :status="$entry->status" />
-                                @if ($entry->note)<span class="text-gray-600"> — {{ $entry->note }}</span>@endif
+                                @if ($entry->note)<span class="text-gray-600">: {{ $entry->note }}</span>@endif
                             </div>
                         </li>
                     @endforeach
                 </ul>
             </div>
 
-            <a href="{{ route('student.orders.index') }}" class="text-sm text-aun-navy hover:underline">← Back to my orders</a>
+            <a href="{{ route('student.orders.index') }}" class="inline-flex items-center gap-1 text-sm text-aun-navy hover:underline"><x-heroicon-m-arrow-left class="w-4 h-4" aria-hidden="true" /> Back to my orders</a>
         </div>
     </div>
 </x-app-layout>

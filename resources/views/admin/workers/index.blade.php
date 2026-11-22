@@ -84,7 +84,7 @@
                                     <div class="text-sm text-gray-500">{{ $worker->email }} · {{ $worker->dorm?->name ?? 'No dorm' }}</div>
                                     <div class="text-xs text-gray-500 mt-1">
                                         Declined {{ $worker->workerProfile->declined_at->format('d M Y') }}@if ($worker->workerProfile->decliner) by {{ $worker->workerProfile->decliner->name }}@endif
-                                        @if ($worker->workerProfile->decline_reason) — “{{ $worker->workerProfile->decline_reason }}”@endif
+                                        @if ($worker->workerProfile->decline_reason). Reason: “{{ $worker->workerProfile->decline_reason }}”@endif
                                     </div>
                                 </div>
                                 <form method="POST" action="{{ route('admin.workers.approve', $worker) }}" onsubmit="return confirm('Approve {{ $worker->name }} after all?')">

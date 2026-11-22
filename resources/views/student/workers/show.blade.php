@@ -41,14 +41,14 @@
                         @if ($rating->comment)
                             <p class="mt-1 text-sm text-gray-700">{{ $rating->comment }}</p>
                         @endif
-                        <div class="mt-1 text-xs text-gray-500">— {{ $rating->rater?->name ?? 'Student' }}</div>
+                        <div class="mt-1 text-xs text-gray-500">{{ $rating->rater?->name ?? 'Student' }}</div>
                     </div>
                 @empty
                     <div class="px-6 py-8 text-center text-gray-500">No reviews yet.</div>
                 @endforelse
             </div>
 
-            <a href="{{ route('student.workers.index') }}" class="text-sm text-aun-navy hover:underline">← Back to workers</a>
+            <a href="{{ route('student.workers.index') }}" class="inline-flex items-center gap-1 text-sm text-aun-navy hover:underline"><x-heroicon-m-arrow-left class="w-4 h-4" aria-hidden="true" /> Back to workers</a>
         </div>
     </div>
 </x-app-layout>

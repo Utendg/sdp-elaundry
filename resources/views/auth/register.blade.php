@@ -21,8 +21,8 @@
             <x-input-label for="role" :value="__('I am a')" />
             <select id="role" name="role" required
                 class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-aun-navy dark:focus:border-indigo-600 focus:ring-aun-orange dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                <option value="student" @selected(old('role') === 'student')>{{ __('Student — I need laundry done') }}</option>
-                <option value="worker" @selected(old('role') === 'worker')>{{ __('Laundry worker — I provide the service') }}</option>
+                <option value="student" @selected(old('role') === 'student')>{{ __('Student: I need laundry done') }}</option>
+                <option value="worker" @selected(old('role') === 'worker')>{{ __('Laundry worker: I provide the service') }}</option>
             </select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
             <p class="mt-1 text-xs text-gray-500">Worker accounts require admin approval before receiving orders.</p>

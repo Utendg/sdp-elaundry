@@ -12,7 +12,7 @@
             <!-- Welcome / quick action -->
             <div class="bg-white shadow-sm rounded-lg p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">Hello, {{ Auth::user()->name }} <x-icon name="basket" class="w-6 h-6" /></h3>
+                    <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">Hello, {{ Auth::user()->name }}</h3>
                     <p class="text-gray-600">You have <span class="font-semibold">{{ $activeCount }}</span> active order(s).</p>
                 </div>
                 <a href="{{ route('student.workers.index') }}"
