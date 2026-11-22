@@ -174,3 +174,28 @@ it('records a status transition in history via the service', function () {
         ->and($order->accepted_at)->not->toBeNull()
         ->and($order->statusHistory()->where('status', 'accepted')->exists())->toBeTrue();
 });
+
+it('shows the worker phone to the student only after the order is accepted', function () {
+    $this->worker->update(['phone' => '08031234567']);
+    $order = Order::create([
+        'student_id' => $this->student->id,
+        'worker_id' => $this->worker->id,
+        'dorm_id' => $this->dorm->id,
+        'status' => 'pending',
+        'total_price' => 200,
+    ]);
+
+    actingAs($this->student)->get(route('student.orders.show', $order))->assertDontSee('08031234567');
+
+    $order->update(['status' => 'accepted']);
+
+    actingAs($this->student)->get(route('student.orders.show', $order))->assertSee('08031234567');
+});
+
+it('returns 404 for the profile page of an unapproved worker', function () {
+    $pending = User::factory()->create(['role' => User::ROLE_WORKER, 'dorm_id' => $this->dorm->id]);
+    WorkerProfile::create(['user_id' => $pending->id, 'is_approved' => false]);
+
+    actingAs($this->student)->get(route('student.workers.show', $pending))->assertNotFound();
+    actingAs($this->student)->get(route('student.workers.show', $this->worker))->assertOk();
+});

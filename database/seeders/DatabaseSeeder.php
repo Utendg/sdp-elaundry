@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AdminPermission;
 use App\Models\Dorm;
 use App\Models\User;
 use App\Models\WorkerProfile;
@@ -20,41 +21,88 @@ class DatabaseSeeder extends Seeder
             ServiceItemSeeder::class,
         ]);
 
-        $firstDorm = Dorm::orderBy('id')->first();
+        // On a live server only the reference data and the Head of Residence Life are created.
+        // The demo accounts below (all with the password "password") exist only on development machines.
+        if (app()->environment('production') && ! filter_var(getenv('SEED_DEMO_DATA'), FILTER_VALIDATE_BOOLEAN)) {
+            $this->seedHeadOfResidenceLife();
 
-        // Administrator (oversees the whole platform).
-        User::updateOrCreate(
+            return;
+        }
+
+        $firstDorm = Dorm::where('code', 'AA')->first() ?? Dorm::orderBy('id')->first();
+
+        // Head of Residence Life: holds every responsibility and manages the other admin accounts.
+        $head = User::updateOrCreate(
             ['email' => 'admin@aun.edu.ng'],
             [
-                'name' => 'System Administrator',
+                'name' => 'Head of Residence Life',
                 'role' => User::ROLE_ADMIN,
                 'phone' => '+2340000000000',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
+                'is_active' => true,
             ],
         );
+        foreach ([...array_keys(AdminPermission::GRANTABLE), AdminPermission::ADMINS] as $permission) {
+            $head->adminPermissions()->firstOrCreate(['permission' => $permission]);
+        }
 
-        // Approved worker (can take orders).
-        $worker = User::updateOrCreate(
-            ['email' => 'worker@aun.edu.ng'],
+        // A second admin with limited responsibilities, created as the Head of Residence Life would.
+        $officer = User::updateOrCreate(
+            ['email' => 'complaints@aun.edu.ng'],
             [
-                'name' => 'Aisha the Launderer',
-                'role' => User::ROLE_WORKER,
-                'phone' => '+2348030000001',
-                'dorm_id' => $firstDorm?->id,
+                'name' => 'Complaints Officer',
+                'role' => User::ROLE_ADMIN,
+                'phone' => '+2340000000001',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
+                'is_active' => true,
             ],
         );
-        WorkerProfile::updateOrCreate(
-            ['user_id' => $worker->id],
-            [
-                'bio' => 'Reliable, quick turnaround. Serving New Dorm A.',
-                'is_approved' => true,
-                'is_available' => true,
-                'approved_at' => now(),
-            ],
-        );
+        foreach ([AdminPermission::ORDERS, AdminPermission::COMPLAINTS] as $permission) {
+            $officer->adminPermissions()->firstOrCreate(['permission' => $permission], ['granted_by' => $head->id]);
+        }
+
+        // One approved laundry man per residence hall.
+        // worker@aun.edu.ng is kept as the Dorm AA laundry man so the demo login stays the same.
+        $laundryMen = [
+            'AA' => ['worker@aun.edu.ng', 'Adamu Musa'],
+            'BB' => ['laundry.bb@aun.edu.ng', 'Ibrahim Sani'],
+            'CC' => ['laundry.cc@aun.edu.ng', 'Emeka Okafor'],
+            'DD' => ['laundry.dd@aun.edu.ng', 'Musa Bello'],
+            'EE' => ['laundry.ee@aun.edu.ng', 'Yakubu Danjuma'],
+            'FF' => ['laundry.ff@aun.edu.ng', 'Chinedu Eze'],
+            'VB' => ['laundry.vb@aun.edu.ng', 'Garba Usman'],
+            'AK' => ['laundry.ak@aun.edu.ng', 'Tunde Adebayo'],
+            'VG' => ['laundry.vg@aun.edu.ng', 'Sule Abdullahi'],
+        ];
+
+        $n = 0;
+        foreach ($laundryMen as $code => [$email, $name]) {
+            $dorm = Dorm::where('code', $code)->first();
+            $n++;
+
+            $worker = User::updateOrCreate(
+                ['email' => $email],
+                [
+                    'name' => $name,
+                    'role' => User::ROLE_WORKER,
+                    'phone' => sprintf('+23480300001%02d', $n),
+                    'dorm_id' => $dorm?->id,
+                    'password' => Hash::make('password'),
+                    'email_verified_at' => now(),
+                ],
+            );
+            WorkerProfile::updateOrCreate(
+                ['user_id' => $worker->id],
+                [
+                    'bio' => "Laundry man for {$dorm?->name}. Washing, drying and ironing with a quick turnaround.",
+                    'is_approved' => true,
+                    'is_available' => true,
+                    'approved_at' => now(),
+                ],
+            );
+        }
 
         // Pending worker (awaiting admin approval).
         $pending = User::updateOrCreate(
@@ -85,5 +133,34 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ],
         );
+    }
+
+    /**
+     * Create the Head of Residence Life from HEAD_ADMIN_EMAIL / HEAD_ADMIN_PASSWORD (set on the host).
+     * The account is only created once, so a password changed later on the Profile page is kept.
+     */
+    private function seedHeadOfResidenceLife(): void
+    {
+        $email = getenv('HEAD_ADMIN_EMAIL');
+        $password = getenv('HEAD_ADMIN_PASSWORD');
+        if (! $email || ! $password) {
+            $this->command?->warn('HEAD_ADMIN_EMAIL or HEAD_ADMIN_PASSWORD is not set; no administrator was created.');
+
+            return;
+        }
+
+        $head = User::firstOrCreate(
+            ['email' => strtolower($email)],
+            [
+                'name' => getenv('HEAD_ADMIN_NAME') ?: 'Head of Residence Life',
+                'role' => User::ROLE_ADMIN,
+                'password' => Hash::make($password),
+                'email_verified_at' => now(),
+                'is_active' => true,
+            ],
+        );
+        foreach ([...array_keys(AdminPermission::GRANTABLE), AdminPermission::ADMINS] as $permission) {
+            $head->adminPermissions()->firstOrCreate(['permission' => $permission]);
+        }
     }
 }

@@ -36,6 +36,15 @@ class User extends Authenticatable
     ];
 
     /**
+     * Defaults for new accounts (mirrors the database default).
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'is_active' => true,
+    ];
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
@@ -76,11 +85,40 @@ class User extends Authenticatable
         return $this->role === self::ROLE_ADMIN;
     }
 
+    // ----- Admin responsibilities ------------------------------------------
+
+    /** The Head of Residence Life creates admins and assigns their responsibilities. */
+    public function isHeadAdmin(): bool
+    {
+        return $this->isAdmin() && $this->adminPermissions->contains('permission', AdminPermission::ADMINS);
+    }
+
+    /** Whether this admin may use an admin area. The Head of Residence Life may use them all. */
+    public function hasAdminPermission(string $permission): bool
+    {
+        if (! $this->isAdmin() || ! $this->is_active) {
+            return false;
+        }
+
+        return $this->isHeadAdmin() || $this->adminPermissions->contains('permission', $permission);
+    }
+
+    /** Job title shown in the interface for admin accounts. */
+    public function adminTitle(): string
+    {
+        return $this->isHeadAdmin() ? 'Head of Residence Life' : 'Administrator';
+    }
+
     // ----- Relationships ------------------------------------------------
 
     public function dorm(): BelongsTo
     {
         return $this->belongsTo(Dorm::class);
+    }
+
+    public function adminPermissions(): HasMany
+    {
+        return $this->hasMany(AdminPermission::class);
     }
 
     public function workerProfile(): HasOne

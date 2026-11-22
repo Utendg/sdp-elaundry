@@ -10,21 +10,26 @@ class DormSeeder extends Seeder
     /**
      * The nine AUN residence halls covered by the laundry service.
      */
+    public const DORMS = [
+        ['name' => 'Dorm AA', 'code' => 'AA'],
+        ['name' => 'Dorm BB', 'code' => 'BB'],
+        ['name' => 'Dorm CC', 'code' => 'CC'],
+        ['name' => 'Dorm DD', 'code' => 'DD'],
+        ['name' => 'Dorm EE', 'code' => 'EE'],
+        ['name' => 'Dorm FF', 'code' => 'FF'],
+        ['name' => 'Volpi Boys', 'code' => 'VB'],
+        ['name' => 'Aisha Kande', 'code' => 'AK'],
+        ['name' => 'Volpi Girls', 'code' => 'VG'],
+    ];
+
     public function run(): void
     {
-        $dorms = [
-            ['name' => 'New Dorm A', 'code' => 'NDA'],
-            ['name' => 'New Dorm B', 'code' => 'NDB'],
-            ['name' => 'New Dorm C', 'code' => 'NDC'],
-            ['name' => 'New Dorm D', 'code' => 'NDD'],
-            ['name' => 'Old Dorm 1', 'code' => 'OD1'],
-            ['name' => 'Old Dorm 2', 'code' => 'OD2'],
-            ['name' => 'Old Dorm 3', 'code' => 'OD3'],
-            ['name' => 'Ladies Village', 'code' => 'LV'],
-            ['name' => 'Gender Village', 'code' => 'GV'],
-        ];
+        // Only fill an empty table, so halls edited by administrators are not overwritten on redeploy.
+        if (Dorm::exists()) {
+            return;
+        }
 
-        foreach ($dorms as $dorm) {
+        foreach (self::DORMS as $dorm) {
             Dorm::updateOrCreate(['code' => $dorm['code']], $dorm);
         }
     }

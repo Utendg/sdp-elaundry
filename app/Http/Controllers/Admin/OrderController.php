@@ -35,7 +35,7 @@ class OrderController extends Controller
     /** Full detail on a single order. */
     public function show(Order $order): View
     {
-        $order->load(['items', 'student', 'worker', 'dorm', 'statusHistory.changedBy', 'ratings', 'complaints']);
+        $order->load(['items', 'student', 'worker', 'dorm', 'statusHistory.changedBy', 'ratings', 'complaints', 'workerNotes.author']);
 
         return view('admin.orders.show', ['order' => $order]);
     }

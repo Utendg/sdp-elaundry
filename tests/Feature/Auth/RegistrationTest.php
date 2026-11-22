@@ -58,3 +58,43 @@ test('registration requires a role and dorm', function () {
     $response->assertSessionHasErrors(['role', 'dorm_id']);
     $this->assertGuest();
 });
+
+test('a new worker registration notifies the admins responsible for workers', function () {
+    $dorm = Dorm::create(['name' => 'Test Hall', 'code' => 'TH']);
+    $admins = User::factory()->count(2)->create(['role' => User::ROLE_ADMIN]);
+    $admins[0]->adminPermissions()->create(['permission' => 'admins']);  // Head of Residence Life
+    $admins[1]->adminPermissions()->create(['permission' => 'workers']);
+    $complaintsOnly = User::factory()->create(['role' => User::ROLE_ADMIN]);
+    $complaintsOnly->adminPermissions()->create(['permission' => 'complaints']);
+
+    $this->post('/register', [
+        'name' => 'New Laundry Man',
+        'email' => 'newworker@example.com',
+        'role' => 'worker',
+        'dorm_id' => $dorm->id,
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    foreach ($admins as $admin) {
+        expect($admin->fresh()->notifications)->toHaveCount(1)
+            ->and($admin->fresh()->notifications->first()->data['type'])->toBe('worker_registered');
+    }
+    expect($complaintsOnly->fresh()->notifications)->toHaveCount(0);
+});
+
+test('a new student registration does not notify admins', function () {
+    $dorm = Dorm::create(['name' => 'Test Hall', 'code' => 'TH']);
+    $admin = User::factory()->create(['role' => User::ROLE_ADMIN]);
+
+    $this->post('/register', [
+        'name' => 'New Student',
+        'email' => 'newstudent@example.com',
+        'role' => 'student',
+        'dorm_id' => $dorm->id,
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    expect($admin->fresh()->notifications)->toHaveCount(0);
+});

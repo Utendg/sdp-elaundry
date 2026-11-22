@@ -16,7 +16,7 @@
                 <form x-show="open" x-cloak method="POST" action="{{ route('admin.dorms.store') }}" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @csrf
                     <input type="text" name="name" placeholder="Hall name" required class="border-gray-300 rounded-md text-sm">
-                    <input type="text" name="code" placeholder="Code (e.g. NDA)" required class="border-gray-300 rounded-md text-sm">
+                    <input type="text" name="code" placeholder="Code (e.g. AA)" required class="border-gray-300 rounded-md text-sm">
                     <input type="text" name="description" placeholder="Description (optional)" class="border-gray-300 rounded-md text-sm sm:col-span-2">
                     <div class="sm:col-span-2"><button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">Save hall</button></div>
                 </form>

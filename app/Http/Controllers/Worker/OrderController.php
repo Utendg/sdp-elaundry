@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Worker;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Rating;
+use App\Notifications\OrderNoteAdded;
 use App\Notifications\OrderStatusChanged;
 use App\Services\OrderService;
 use Illuminate\Http\RedirectResponse;
@@ -36,7 +37,7 @@ class OrderController extends Controller
     {
         $this->authorizeOrder($request, $order);
 
-        $order->load(['items', 'student', 'statusHistory.changedBy', 'ratings']);
+        $order->load(['items', 'student', 'statusHistory.changedBy', 'ratings', 'workerNotes']);
 
         return view('worker.orders.show', [
             'order' => $order,
@@ -130,6 +131,29 @@ class OrderController extends Controller
         ]);
 
         return back()->with('status', 'Your rating of the student has been recorded.');
+    }
+
+    /** Worker attaches a note to an order (visible to the student and admins). */
+    public function addNote(Request $request, Order $order): RedirectResponse
+    {
+        $this->authorizeOrder($request, $order);
+
+        if (in_array($order->status, ['cancelled', 'rejected'], true)) {
+            return back()->withErrors(['body' => 'Notes cannot be added to a cancelled or rejected order.']);
+        }
+
+        $validated = $request->validate([
+            'body' => ['required', 'string', 'max:1000'],
+        ]);
+
+        $note = $order->workerNotes()->create([
+            'author_id' => $request->user()->id,
+            'body' => $validated['body'],
+        ]);
+
+        $order->student->notify(new OrderNoteAdded($note));
+
+        return back()->with('status', 'Note added and the student has been notified.');
     }
 
     /** Ensure the current worker owns the order. */

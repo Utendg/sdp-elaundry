@@ -25,17 +25,20 @@ to campus resident life.
 - Browse **verified** workers in their dorm, ranked by rating
 - Build an order with a **live price calculator** — priced from the official university rate
 - Track orders through a live status timeline (placed → accepted → picked up → washing → ironing → ready → completed)
-- Cancel pending orders, **rate** workers, and **file complaints**
+- Read notes from their worker and see the worker's phone number once an order is accepted
+- Cancel pending or accepted orders, **rate** workers, and **file complaints**
 
 ### 🧺 Laundry workers
-- Register (accounts require **admin approval** before receiving orders)
+- Register (accounts require **admin approval**: admins are notified of each sign-up, and until approved a worker can only edit their profile — they are hidden from students and cannot set availability or see orders)
 - Accept / reject incoming orders and advance them through the laundry pipeline
+- Add **notes** to an order (e.g. a stain that would not come out) — the student is notified
 - Toggle availability (available / busy)
 - Manage profile & bio, view rating and throughput stats
 - Rate students after completion
 
 ### 🛡️ Administrators
-- Approve or revoke worker accounts
+- Approve, **decline** (with a reason) or revoke worker accounts (notified when a new worker registers)
+- The **Head of Residence Life** (`admin@aun.edu.ng`) opens other admin accounts and assigns each one only the responsibilities it needs (workers, orders, complaints, price list, dorms); they can change these or deactivate an admin at any time
 - Manage the official **price list** and **residence halls**
 - Monitor **all orders** across dorms with filters
 - Triage and resolve **complaints**
@@ -51,7 +54,7 @@ to campus resident life.
 | Auth | Laravel Breeze (Blade) |
 | Frontend | Blade, Tailwind CSS, Alpine.js, Vite |
 | Database | MySQL |
-| Testing | Pest (65 feature tests) |
+| Testing | Pest (91 tests, 276 assertions) |
 
 ## Getting started
 
@@ -81,13 +84,16 @@ php artisan serve  # http://localhost:8000
 
 | Role | Email |
 |------|-------|
-| Admin | `admin@aun.edu.ng` |
-| Worker (approved) | `worker@aun.edu.ng` |
+| Admin — Head of Residence Life (all areas + admin accounts) | `admin@aun.edu.ng` |
+| Admin — Complaints Officer (orders + complaints only) | `complaints@aun.edu.ng` |
+| Worker, Dorm AA (approved) | `worker@aun.edu.ng` |
+| Workers for the other 8 dorms (approved) | `laundry.bb@aun.edu.ng`, `laundry.cc@…`, `laundry.dd@…`, `laundry.ee@…`, `laundry.ff@…`, `laundry.vb@…` (Volpi Boys), `laundry.ak@…` (Aisha Kande), `laundry.vg@…` (Volpi Girls) |
 | Worker (pending approval) | `pending@aun.edu.ng` |
 | Student | `student@aun.edu.ng` |
 
-> Seeded dorm names and price-list rates are **placeholders** — replace them with the real
-> AUN values from the admin screens (Dorms and Price List).
+> The nine seeded dorms are AUN's residence halls: Dorm AA, BB, CC, DD, EE, FF, Volpi Boys,
+> Aisha Kande and Volpi Girls, each with one approved laundry worker. Price-list rates are
+> **placeholders** — replace them with the university's approved rates from the admin Price List screen.
 
 ## Running the tests
 
@@ -98,8 +104,34 @@ php artisan test
 ## Data model (core tables)
 
 `users` (role, dorm, phone) · `dorms` · `service_items` (price list) · `worker_profiles`
-(approval + cached stats) · `orders` · `order_items` (price-snapshotted) · `order_status_history`
-· `ratings` (two-way) · `complaints` · `notifications`.
+(approval / decline + cached stats) · `admin_permissions` (admin responsibilities) · `orders` · `order_items` (price-snapshotted) · `order_status_history`
+· `order_notes` (worker notes) · `ratings` (two-way) · `complaints` · `notifications`.
+
+## Installing it as an app
+
+The site is a Progressive Web App (`public/manifest.webmanifest`, `public/sw.js`). Once it is served
+over HTTPS, students and staff can install it from the same address:
+
+- **Android (Chrome):** tap **Install** on the banner, or menu ⋮ → *Install app*.
+- **iPhone / iPad (Safari):** Share → *Add to Home Screen*.
+- **Laptop (Chrome / Edge):** the install icon in the address bar.
+
+It opens full-screen with its own icon. Pages always come from the server (nothing personal is
+cached on the device); without a connection an offline page is shown.
+
+## Deploying to Render
+
+`render.yaml` defines a Docker web service (`Dockerfile`, `docker/start.sh`) and a PostgreSQL database.
+
+1. Generate an app key locally: `php artisan key:generate --show`.
+2. Push this repository to GitHub, then open
+   `https://dashboard.render.com/blueprint/new?repo=https://github.com/Utendg/sdp-elaundry`.
+3. Fill in `APP_KEY`, `HEAD_ADMIN_EMAIL` and `HEAD_ADMIN_PASSWORD`, then click **Apply**.
+
+Every start runs the migrations and seeds the nine residence halls, the price list and the Head of
+Residence Life account (created once from the variables above). Demo accounts are **not** created in
+production unless `SEED_DEMO_DATA=true`. On the free plan the service sleeps after 15 minutes without
+traffic, and the free database expires after 30 days, so use paid plans for real use.
 
 ## Configuration notes
 

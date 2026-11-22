@@ -146,3 +146,62 @@ it('blocks students from the worker area', function () {
         ->get(route('worker.orders.index'))
         ->assertForbidden();
 });
+
+it('lets a worker add a note to an order and notifies the student', function () {
+    $order = ($this->makeOrder)('washing');
+
+    actingAs($this->worker)
+        ->post(route('worker.orders.notes.store', $order), ['body' => 'One shirt has a stain that would not come out.'])
+        ->assertRedirect();
+
+    expect($order->workerNotes()->count())->toBe(1)
+        ->and($order->workerNotes()->first()->author_id)->toBe($this->worker->id)
+        ->and($this->student->fresh()->notifications)->toHaveCount(1);
+
+    actingAs($this->student)
+        ->get(route('student.orders.show', $order))
+        ->assertOk()
+        ->assertSee('One shirt has a stain that would not come out.');
+});
+
+it('requires a note body', function () {
+    $order = ($this->makeOrder)('washing');
+
+    actingAs($this->worker)
+        ->post(route('worker.orders.notes.store', $order), ['body' => ''])
+        ->assertSessionHasErrors('body');
+
+    expect($order->workerNotes()->count())->toBe(0);
+});
+
+it('blocks notes on rejected orders', function () {
+    $order = ($this->makeOrder)('rejected');
+
+    actingAs($this->worker)
+        ->post(route('worker.orders.notes.store', $order), ['body' => 'Hello'])
+        ->assertSessionHasErrors('body');
+
+    expect($order->workerNotes()->count())->toBe(0);
+});
+
+it("forbids adding a note to another worker's order", function () {
+    $other = User::factory()->create(['role' => User::ROLE_WORKER]);
+    WorkerProfile::create(['user_id' => $other->id, 'is_approved' => true, 'is_available' => true]);
+    $order = ($this->makeOrder)('washing');
+
+    actingAs($other)
+        ->post(route('worker.orders.notes.store', $order), ['body' => 'Hello'])
+        ->assertForbidden();
+});
+
+it('keeps a pending worker out of everything except their profile', function () {
+    $this->profile->update(['is_approved' => false]);
+
+    actingAs($this->worker)->get(route('worker.orders.index'))->assertRedirect(route('dashboard'));
+    actingAs($this->worker)->post(route('worker.profile.availability'))->assertRedirect(route('dashboard'));
+    actingAs($this->worker)->get(route('worker.profile.edit'))->assertOk();
+    actingAs($this->worker)->get(route('dashboard'))
+        ->assertOk()
+        ->assertSee('pending approval')
+        ->assertDontSee('New requests');
+});

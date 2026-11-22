@@ -74,19 +74,20 @@ Route::middleware(['auth', 'role:worker'])
     ->prefix('worker')
     ->name('worker.')
     ->group(function () {
-        // Profile is viewable/editable even before approval.
+        // Profile is viewable/editable while the account awaits admin approval.
         Route::get('/profile', [Worker\ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [Worker\ProfileController::class, 'update'])->name('profile.update');
-        Route::post('/profile/availability', [Worker\ProfileController::class, 'toggleAvailability'])->name('profile.availability');
 
-        // Order management requires an approved worker.
+        // Everything else (availability, orders, notes, ratings) requires admin approval.
         Route::middleware('worker.approved')->group(function () {
+            Route::post('/profile/availability', [Worker\ProfileController::class, 'toggleAvailability'])->name('profile.availability');
             Route::get('/orders', [Worker\OrderController::class, 'index'])->name('orders.index');
             Route::get('/orders/{order}', [Worker\OrderController::class, 'show'])->name('orders.show');
             Route::post('/orders/{order}/accept', [Worker\OrderController::class, 'accept'])->name('orders.accept');
             Route::post('/orders/{order}/reject', [Worker\OrderController::class, 'reject'])->name('orders.reject');
             Route::post('/orders/{order}/advance', [Worker\OrderController::class, 'advance'])->name('orders.advance');
             Route::post('/orders/{order}/rate', [Worker\OrderController::class, 'rateStudent'])->name('orders.rate');
+            Route::post('/orders/{order}/notes', [Worker\OrderController::class, 'addNote'])->name('orders.notes.store');
         });
     });
 
@@ -99,31 +100,53 @@ Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
+        // Each area needs the matching responsibility, assigned by the Head of Residence Life.
+
+        // Admin accounts and responsibilities (Head of Residence Life only)
+        Route::middleware('admin.permission:admins')->group(function () {
+            Route::get('/admins', [Admin\AdminAccountController::class, 'index'])->name('admins.index');
+            Route::post('/admins', [Admin\AdminAccountController::class, 'store'])->name('admins.store');
+            Route::patch('/admins/{admin}', [Admin\AdminAccountController::class, 'update'])->name('admins.update');
+            Route::post('/admins/{admin}/toggle', [Admin\AdminAccountController::class, 'toggle'])->name('admins.toggle');
+        });
+
         // Worker approvals
-        Route::get('/workers', [Admin\WorkerController::class, 'index'])->name('workers.index');
-        Route::post('/workers/{worker}/approve', [Admin\WorkerController::class, 'approve'])->name('workers.approve');
-        Route::post('/workers/{worker}/revoke', [Admin\WorkerController::class, 'revoke'])->name('workers.revoke');
+        Route::middleware('admin.permission:workers')->group(function () {
+            Route::get('/workers', [Admin\WorkerController::class, 'index'])->name('workers.index');
+            Route::post('/workers/{worker}/approve', [Admin\WorkerController::class, 'approve'])->name('workers.approve');
+            Route::post('/workers/{worker}/decline', [Admin\WorkerController::class, 'decline'])->name('workers.decline');
+            Route::post('/workers/{worker}/revoke', [Admin\WorkerController::class, 'revoke'])->name('workers.revoke');
+        });
 
         // Price list
-        Route::get('/service-items', [Admin\ServiceItemController::class, 'index'])->name('service-items.index');
-        Route::post('/service-items', [Admin\ServiceItemController::class, 'store'])->name('service-items.store');
-        Route::patch('/service-items/{serviceItem}', [Admin\ServiceItemController::class, 'update'])->name('service-items.update');
-        Route::post('/service-items/{serviceItem}/toggle', [Admin\ServiceItemController::class, 'toggle'])->name('service-items.toggle');
-        Route::delete('/service-items/{serviceItem}', [Admin\ServiceItemController::class, 'destroy'])->name('service-items.destroy');
+        Route::middleware('admin.permission:prices')->group(function () {
+            Route::get('/service-items', [Admin\ServiceItemController::class, 'index'])->name('service-items.index');
+            Route::post('/service-items', [Admin\ServiceItemController::class, 'store'])->name('service-items.store');
+            Route::patch('/service-items/{serviceItem}', [Admin\ServiceItemController::class, 'update'])->name('service-items.update');
+            Route::post('/service-items/{serviceItem}/toggle', [Admin\ServiceItemController::class, 'toggle'])->name('service-items.toggle');
+            Route::delete('/service-items/{serviceItem}', [Admin\ServiceItemController::class, 'destroy'])->name('service-items.destroy');
+        });
 
         // Dorms
-        Route::get('/dorms', [Admin\DormController::class, 'index'])->name('dorms.index');
-        Route::post('/dorms', [Admin\DormController::class, 'store'])->name('dorms.store');
-        Route::patch('/dorms/{dorm}', [Admin\DormController::class, 'update'])->name('dorms.update');
-        Route::post('/dorms/{dorm}/toggle', [Admin\DormController::class, 'toggle'])->name('dorms.toggle');
+        Route::middleware('admin.permission:dorms')->group(function () {
+            Route::get('/dorms', [Admin\DormController::class, 'index'])->name('dorms.index');
+            Route::post('/dorms', [Admin\DormController::class, 'store'])->name('dorms.store');
+            Route::patch('/dorms/{dorm}', [Admin\DormController::class, 'update'])->name('dorms.update');
+            Route::post('/dorms/{dorm}/toggle', [Admin\DormController::class, 'toggle'])->name('dorms.toggle');
+        });
 
         // Orders (monitoring)
-        Route::get('/orders', [Admin\OrderController::class, 'index'])->name('orders.index');
-        Route::get('/orders/{order}', [Admin\OrderController::class, 'show'])->name('orders.show');
+        Route::middleware('admin.permission:orders')->group(function () {
+            Route::get('/orders', [Admin\OrderController::class, 'index'])->name('orders.index');
+            Route::get('/orders/{order}', [Admin\OrderController::class, 'show'])->name('orders.show');
+        });
 
         // Complaints
-        Route::get('/complaints', [Admin\ComplaintController::class, 'index'])->name('complaints.index');
-        Route::patch('/complaints/{complaint}', [Admin\ComplaintController::class, 'update'])->name('complaints.update');
+        Route::middleware('admin.permission:complaints')->group(function () {
+            Route::get('/complaints', [Admin\ComplaintController::class, 'index'])->name('complaints.index');
+            Route::patch('/complaints/{complaint}', [Admin\ComplaintController::class, 'update'])->name('complaints.update');
+        });
+
     });
 
 require __DIR__.'/auth.php';

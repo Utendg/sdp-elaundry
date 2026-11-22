@@ -1,0 +1,54 @@
+# Render Blueprint for AUN E-Laundry: one Docker web service and one PostgreSQL database.
+# Deploy: push this repo to GitHub, then open
+#   https://dashboard.render.com/blueprint/new?repo=https://github.com/Utendg/sdp-elaundry
+# and fill in the values marked sync: false.
+services:
+  - type: web
+    name: aun-elaundry
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: AUN E-Laundry
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false # run `php artisan key:generate --show` locally and paste the result
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: info
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: aun-elaundry-db
+          property: connectionString
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: MAIL_MAILER
+        value: log
+      - key: HEAD_ADMIN_EMAIL
+        sync: false # email of the Head of Residence Life account created on first deploy
+      - key: HEAD_ADMIN_PASSWORD
+        sync: false # their first password; they can change it on the Profile page
+      - key: HEAD_ADMIN_NAME
+        value: Head of Residence Life
+
+databases:
+  - name: aun-elaundry-db
+    databaseName: elaundry
+    user: elaundry
+    plan: free
+    region: frankfurt

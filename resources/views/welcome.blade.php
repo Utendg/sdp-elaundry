@@ -49,6 +49,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700,800&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('partials.pwa-head')
     @include('partials.analytics')
 </head>
 <body class="antialiased bg-white text-gray-900 font-sans">
@@ -191,9 +192,9 @@
                     $testimonials = $reviews->isNotEmpty()
                         ? $reviews->map(fn ($r) => ['stars' => $r->stars, 'text' => $r->comment, 'name' => 'Verified student'])->all()
                         : [
-                            ['stars' => 5, 'text' => 'Booked in minutes and my clothes came back the same day. No haggling over price!', 'name' => 'Student, New Dorm A'],
-                            ['stars' => 5, 'text' => 'As a fresher I had no idea who to trust. The ratings made it so easy.', 'name' => 'Student, Ladies Village'],
-                            ['stars' => 4, 'text' => 'Love being able to track my order and get a notification when it is ready.', 'name' => 'Student, Old Dorm 2'],
+                            ['stars' => 5, 'text' => 'Booked in minutes and my clothes came back the same day. No haggling over price!', 'name' => 'Student, Dorm AA'],
+                            ['stars' => 5, 'text' => 'As a fresher I had no idea who to trust. The ratings made it so easy.', 'name' => 'Student, Aisha Kande'],
+                            ['stars' => 4, 'text' => 'Love being able to track my order and get a notification when it is ready.', 'name' => 'Student, Volpi Boys'],
                         ];
                 @endphp
                 @foreach ($testimonials as $t)
@@ -319,5 +320,6 @@
         </div>
         <div class="sm:hidden h-20"></div>
     @endguest
+    @include('partials.install-banner')
 </body>
 </html>

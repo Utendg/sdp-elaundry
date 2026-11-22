@@ -26,6 +26,11 @@ class ServiceItemSeeder extends Seeder
             ['name' => 'Ironing only (per piece)', 'service' => 'iron', 'unit_price' => 100],
         ];
 
+        // Only fill an empty price list, so prices set by administrators are not overwritten on redeploy.
+        if (ServiceItem::exists()) {
+            return;
+        }
+
         foreach ($items as $i => $item) {
             ServiceItem::updateOrCreate(
                 ['name' => $item['name']],

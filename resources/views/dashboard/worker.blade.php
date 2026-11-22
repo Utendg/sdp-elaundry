@@ -9,11 +9,18 @@
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
 
-            @unless ($profile?->is_approved)
+            @if ($profile?->isDeclined())
+                <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
+                    <strong>Your laundry worker application was declined.</strong>
+                    @if ($profile->decline_reason) Reason: {{ $profile->decline_reason }}. @endif
+                    Please contact the Residence Life office if you think this is a mistake.
+                </div>
+            @elseif (! $profile?->is_approved)
                 <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-lg p-4">
                     <strong>Your worker account is pending approval.</strong>
-                    An administrator must approve your profile before you can receive orders.
-                    You can still complete <a href="{{ route('worker.profile.edit') }}" class="underline">your profile</a> in the meantime.
+                    An administrator must approve your account before you appear to students or can receive orders.
+                    You will get a notification once you are approved. You can still complete
+                    <a href="{{ route('worker.profile.edit') }}" class="underline">your profile</a> in the meantime.
                 </div>
             @else
                 <div class="bg-white shadow-sm sm:rounded-lg p-4 flex items-center justify-between">
@@ -30,8 +37,9 @@
                         </button>
                     </form>
                 </div>
-            @endunless
+            @endif
 
+            @if ($profile?->is_approved)
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-white shadow-sm rounded-lg p-6">
                     <div class="text-sm text-gray-500">New requests</div>
@@ -63,6 +71,7 @@
                     <div class="px-6 py-8 text-center text-gray-500">No orders yet.</div>
                 @endforelse
             </div>
+            @endif
         </div>
     </div>
 </x-app-layout>

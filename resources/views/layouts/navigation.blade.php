@@ -28,28 +28,45 @@
                             {{ __('Complaints') }}
                         </x-nav-link>
                     @elseif (Auth::user()->isWorker())
+                        @if (Auth::user()->workerProfile?->is_approved)
                         <x-nav-link :href="route('worker.orders.index')" :active="request()->routeIs('worker.orders.*')">
                             {{ __('Orders') }}
                         </x-nav-link>
+                        @endif
                         <x-nav-link :href="route('worker.profile.edit')" :active="request()->routeIs('worker.profile.*')">
                             {{ __('My Profile') }}
                         </x-nav-link>
                     @elseif (Auth::user()->isAdmin())
+                        @if (Auth::user()->hasAdminPermission('workers'))
                         <x-nav-link :href="route('admin.workers.index')" :active="request()->routeIs('admin.workers.*')">
                             {{ __('Workers') }}
                         </x-nav-link>
+                        @endif
+                        @if (Auth::user()->hasAdminPermission('orders'))
                         <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
                             {{ __('Orders') }}
                         </x-nav-link>
+                        @endif
+                        @if (Auth::user()->hasAdminPermission('complaints'))
                         <x-nav-link :href="route('admin.complaints.index')" :active="request()->routeIs('admin.complaints.*')">
                             {{ __('Complaints') }}
                         </x-nav-link>
+                        @endif
+                        @if (Auth::user()->hasAdminPermission('prices'))
                         <x-nav-link :href="route('admin.service-items.index')" :active="request()->routeIs('admin.service-items.*')">
                             {{ __('Price List') }}
                         </x-nav-link>
+                        @endif
+                        @if (Auth::user()->hasAdminPermission('dorms'))
                         <x-nav-link :href="route('admin.dorms.index')" :active="request()->routeIs('admin.dorms.*')">
                             {{ __('Dorms') }}
                         </x-nav-link>
+                        @endif
+                        @if (Auth::user()->isHeadAdmin())
+                        <x-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.*')">
+                            {{ __('Admins') }}
+                        </x-nav-link>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -153,28 +170,45 @@
                     {{ __('Complaints') }}
                 </x-responsive-nav-link>
             @elseif (Auth::user()->isWorker())
+                @if (Auth::user()->workerProfile?->is_approved)
                 <x-responsive-nav-link :href="route('worker.orders.index')" :active="request()->routeIs('worker.orders.*')">
                     {{ __('Orders') }}
                 </x-responsive-nav-link>
+                @endif
                 <x-responsive-nav-link :href="route('worker.profile.edit')" :active="request()->routeIs('worker.profile.*')">
                     {{ __('My Profile') }}
                 </x-responsive-nav-link>
             @elseif (Auth::user()->isAdmin())
+                @if (Auth::user()->hasAdminPermission('workers'))
                 <x-responsive-nav-link :href="route('admin.workers.index')" :active="request()->routeIs('admin.workers.*')">
                     {{ __('Workers') }}
                 </x-responsive-nav-link>
+                @endif
+                @if (Auth::user()->hasAdminPermission('orders'))
                 <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
                     {{ __('Orders') }}
                 </x-responsive-nav-link>
+                @endif
+                @if (Auth::user()->hasAdminPermission('complaints'))
                 <x-responsive-nav-link :href="route('admin.complaints.index')" :active="request()->routeIs('admin.complaints.*')">
                     {{ __('Complaints') }}
                 </x-responsive-nav-link>
+                @endif
+                @if (Auth::user()->hasAdminPermission('prices'))
                 <x-responsive-nav-link :href="route('admin.service-items.index')" :active="request()->routeIs('admin.service-items.*')">
                     {{ __('Price List') }}
                 </x-responsive-nav-link>
+                @endif
+                @if (Auth::user()->hasAdminPermission('dorms'))
                 <x-responsive-nav-link :href="route('admin.dorms.index')" :active="request()->routeIs('admin.dorms.*')">
                     {{ __('Dorms') }}
                 </x-responsive-nav-link>
+                @endif
+                @if (Auth::user()->isHeadAdmin())
+                <x-responsive-nav-link :href="route('admin.admins.index')" :active="request()->routeIs('admin.admins.*')">
+                    {{ __('Admins') }}
+                </x-responsive-nav-link>
+                @endif
             @endif
         </div>
 

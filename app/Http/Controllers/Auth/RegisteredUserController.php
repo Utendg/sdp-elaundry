@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminPermission;
 use App\Models\Dorm;
 use App\Models\User;
 use App\Models\WorkerProfile;
+use App\Notifications\WorkerRegistered;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
@@ -60,6 +63,11 @@ class RegisteredUserController extends Controller
                 'user_id' => $user->id,
                 'is_approved' => false,
             ]);
+
+            // Let every admin responsible for laundry workers know there is an application to review.
+            $reviewers = User::where('role', User::ROLE_ADMIN)->where('is_active', true)->with('adminPermissions')->get()
+                ->filter(fn (User $admin) => $admin->hasAdminPermission(AdminPermission::WORKERS));
+            Notification::send($reviewers, new WorkerRegistered($user));
         }
 
         event(new Registered($user));

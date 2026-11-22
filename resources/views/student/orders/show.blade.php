@@ -52,6 +52,9 @@
             <div class="bg-white shadow-sm sm:rounded-lg p-6">
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div><span class="text-gray-500">Worker:</span> <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
+                    @if ($order->worker?->phone && ! in_array($order->status, ['pending', 'cancelled', 'rejected'], true))
+                        <div><span class="text-gray-500">Worker phone:</span> <a href="tel:{{ $order->worker->phone }}" class="font-medium text-aun-navy hover:underline">{{ $order->worker->phone }}</a></div>
+                    @endif
                     <div><span class="text-gray-500">Dorm:</span> <span class="font-medium">{{ $order->dorm?->name ?? '—' }}</span></div>
                     <div><span class="text-gray-500">Placed:</span> <span class="font-medium">{{ $order->created_at->format('d M Y, g:i A') }}</span></div>
                     @if ($order->scheduled_pickup_at)
@@ -163,6 +166,19 @@
                     <button class="px-4 py-2 bg-red-600 text-white text-sm rounded-md hover:bg-red-700">Submit complaint</button>
                 </form>
             </div>
+
+            <!-- Notes from the worker -->
+            @if ($order->workerNotes->isNotEmpty())
+                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                    <h3 class="font-semibold text-gray-900 mb-3">Notes from your worker</h3>
+                    @foreach ($order->workerNotes as $note)
+                        <div class="border-t border-gray-100 py-2 text-sm first:border-t-0">
+                            <div class="text-xs text-gray-400">{{ $note->created_at->format('d M, g:i A') }}</div>
+                            <p class="text-gray-700 whitespace-pre-line">{{ $note->body }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
 
             <!-- Status history -->
             <div class="bg-white shadow-sm sm:rounded-lg p-6">

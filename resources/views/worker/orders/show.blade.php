@@ -92,6 +92,29 @@
                 @endif
             </div>
 
+            <!-- Worker notes -->
+            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                <h3 class="font-semibold text-gray-900 mb-1">Notes for the student</h3>
+                <p class="text-xs text-gray-500 mb-3">Record anything the student should know, e.g. a stain that could not be removed or a missing button. The student is notified.</p>
+
+                @if (! in_array($order->status, ['cancelled', 'rejected'], true))
+                    <form method="POST" action="{{ route('worker.orders.notes.store', $order) }}" class="mb-4">
+                        @csrf
+                        <textarea name="body" rows="2" maxlength="1000" required placeholder="Add a note…" class="block w-full border-gray-300 rounded-md text-sm">{{ old('body') }}</textarea>
+                        <button type="submit" class="mt-2 px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light">Add note</button>
+                    </form>
+                @endif
+
+                @forelse ($order->workerNotes as $note)
+                    <div class="border-t border-gray-100 py-2 text-sm">
+                        <div class="text-xs text-gray-400">{{ $note->created_at->format('d M, g:i A') }}</div>
+                        <p class="text-gray-700 whitespace-pre-line">{{ $note->body }}</p>
+                    </div>
+                @empty
+                    <p class="text-sm text-gray-500">No notes yet.</p>
+                @endforelse
+            </div>
+
             <!-- Rate the student (after completion) -->
             @if ($order->isCompleted())
                 <div class="bg-white shadow-sm sm:rounded-lg p-6">

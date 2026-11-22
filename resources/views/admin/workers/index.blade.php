@@ -8,6 +8,7 @@
             @if (session('status'))
                 <div class="bg-green-50 border border-green-200 text-green-800 rounded-lg p-4">{{ session('status') }}</div>
             @endif
+            <x-input-error :messages="$errors->all()" />
 
             <!-- Pending approval -->
             <section>
@@ -16,14 +17,24 @@
                 </h3>
                 <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
                     @forelse ($pending as $worker)
-                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
-                            <div>
-                                <div class="font-medium text-gray-900">{{ $worker->name }}</div>
-                                <div class="text-sm text-gray-500">{{ $worker->email }} · {{ $worker->dorm?->name ?? 'No dorm' }} · {{ $worker->phone ?? 'No phone' }}</div>
+                        <div class="px-6 py-4 border-b border-gray-50" x-data="{ declining: false }">
+                            <div class="flex items-center justify-between gap-4">
+                                <div>
+                                    <div class="font-medium text-gray-900">{{ $worker->name }}</div>
+                                    <div class="text-sm text-gray-500">{{ $worker->email }} · {{ $worker->dorm?->name ?? 'No dorm' }} · {{ $worker->phone ?? 'No phone' }}</div>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <form method="POST" action="{{ route('admin.workers.approve', $worker) }}">
+                                        @csrf
+                                        <button class="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700">Approve</button>
+                                    </form>
+                                    <button type="button" @click="declining = !declining" class="px-4 py-2 text-sm border border-red-300 text-red-700 rounded-md hover:bg-red-50">Decline</button>
+                                </div>
                             </div>
-                            <form method="POST" action="{{ route('admin.workers.approve', $worker) }}">
+                            <form x-show="declining" x-cloak method="POST" action="{{ route('admin.workers.decline', $worker) }}" class="mt-3 flex flex-col sm:flex-row gap-2">
                                 @csrf
-                                <button class="px-4 py-2 text-sm bg-green-600 text-white rounded-md hover:bg-green-700">Approve</button>
+                                <input type="text" name="reason" maxlength="500" placeholder="Reason (optional, shown to the applicant)" class="flex-1 border-gray-300 rounded-md text-sm">
+                                <button class="px-4 py-2 text-sm bg-red-600 text-white rounded-md hover:bg-red-700">Confirm decline</button>
                             </form>
                         </div>
                     @empty
@@ -58,6 +69,33 @@
                     @endforelse
                 </div>
             </section>
+
+            <!-- Declined -->
+            @if ($declined->isNotEmpty())
+                <section>
+                    <h3 class="font-semibold text-gray-900 mb-3">Declined applications
+                        <span class="ms-1 text-xs bg-red-100 text-red-800 rounded-full px-2 py-0.5">{{ $declined->count() }}</span>
+                    </h3>
+                    <div class="bg-white shadow-sm sm:rounded-lg overflow-hidden">
+                        @foreach ($declined as $worker)
+                            <div class="flex items-center justify-between gap-4 px-6 py-4 border-b border-gray-50">
+                                <div>
+                                    <div class="font-medium text-gray-900">{{ $worker->name }}</div>
+                                    <div class="text-sm text-gray-500">{{ $worker->email }} · {{ $worker->dorm?->name ?? 'No dorm' }}</div>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        Declined {{ $worker->workerProfile->declined_at->format('d M Y') }}@if ($worker->workerProfile->decliner) by {{ $worker->workerProfile->decliner->name }}@endif
+                                        @if ($worker->workerProfile->decline_reason) — “{{ $worker->workerProfile->decline_reason }}”@endif
+                                    </div>
+                                </div>
+                                <form method="POST" action="{{ route('admin.workers.approve', $worker) }}" onsubmit="return confirm('Approve {{ $worker->name }} after all?')">
+                                    @csrf
+                                    <button class="px-3 py-2 text-sm border border-green-300 text-green-700 rounded-md hover:bg-green-50">Approve instead</button>
+                                </form>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
         </div>
     </div>
 </x-app-layout>

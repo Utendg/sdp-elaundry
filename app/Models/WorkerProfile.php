@@ -14,6 +14,9 @@ class WorkerProfile extends Model
         'is_available',
         'approved_at',
         'approved_by',
+        'declined_at',
+        'declined_by',
+        'decline_reason',
         'rating_avg',
         'ratings_count',
         'orders_completed',
@@ -23,8 +26,25 @@ class WorkerProfile extends Model
         'is_approved' => 'boolean',
         'is_available' => 'boolean',
         'approved_at' => 'datetime',
+        'declined_at' => 'datetime',
         'rating_avg' => 'decimal:2',
     ];
+
+    /** Waiting for an admin decision. */
+    public function isPending(): bool
+    {
+        return ! $this->is_approved && is_null($this->declined_at);
+    }
+
+    public function isDeclined(): bool
+    {
+        return ! $this->is_approved && ! is_null($this->declined_at);
+    }
+
+    public function decliner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'declined_by');
+    }
 
     public function user(): BelongsTo
     {

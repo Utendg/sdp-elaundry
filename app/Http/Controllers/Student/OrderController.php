@@ -140,7 +140,7 @@ class OrderController extends Controller
     {
         $this->authorizeOrder($request, $order);
 
-        $order->load(['items', 'worker.workerProfile', 'statusHistory.changedBy', 'ratings', 'dorm']);
+        $order->load(['items', 'worker.workerProfile', 'statusHistory.changedBy', 'ratings', 'dorm', 'workerNotes']);
 
         return view('student.orders.show', ['order' => $order]);
     }

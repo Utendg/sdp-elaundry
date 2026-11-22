@@ -19,7 +19,9 @@ class EnsureWorkerApproved
         if ($user && $user->isWorker() && ! ($user->workerProfile?->is_approved)) {
             return redirect()
                 ->route('dashboard')
-                ->withErrors(['approval' => 'Your worker account is awaiting admin approval.']);
+                ->withErrors(['approval' => $user->workerProfile?->isDeclined()
+                    ? 'Your worker application was declined.'
+                    : 'Your worker account is awaiting admin approval.']);
         }
 
         return $next($request);

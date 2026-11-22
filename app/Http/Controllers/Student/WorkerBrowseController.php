@@ -47,7 +47,8 @@ class WorkerBrowseController extends Controller
      */
     public function show(Request $request, User $worker): View
     {
-        abort_unless($worker->isWorker(), 404);
+        // Only approved, active workers are visible to students.
+        abort_unless($worker->isWorker() && $worker->is_active && $worker->workerProfile?->is_approved, 404);
 
         $worker->load([
             'workerProfile',

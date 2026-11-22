@@ -73,6 +73,11 @@ class Order extends Model
         return $this->hasMany(OrderStatusHistory::class)->latest();
     }
 
+    public function workerNotes(): HasMany
+    {
+        return $this->hasMany(OrderNote::class)->latest();
+    }
+
     public function ratings(): HasMany
     {
         return $this->hasMany(Rating::class);

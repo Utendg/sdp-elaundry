@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $user = $request->user();
 
         return match ($user->role) {
-            User::ROLE_ADMIN => $this->admin(),
+            User::ROLE_ADMIN => $this->admin($user),
             User::ROLE_WORKER => $this->worker($user),
             default => $this->student($user),
         };
@@ -56,12 +56,13 @@ class DashboardController extends Controller
         ]);
     }
 
-    private function admin(): View
+    private function admin(User $user): View
     {
         return view('dashboard.admin', [
+            'admin' => $user,
             'totalStudents' => User::where('role', User::ROLE_STUDENT)->count(),
             'totalWorkers' => User::where('role', User::ROLE_WORKER)->count(),
-            'pendingWorkers' => WorkerProfile::where('is_approved', false)->count(),
+            'pendingWorkers' => WorkerProfile::where('is_approved', false)->whereNull('declined_at')->count(),
             'totalOrders' => Order::count(),
             'openComplaints' => Complaint::whereIn('status', ['open', 'under_review'])->count(),
             'recentOrders' => Order::with(['student', 'worker'])->latest()->take(8)->get(),
