@@ -8,6 +8,15 @@
 
     @php
         $statusLabels = ['picked_up' => 'Mark picked up', 'washing' => 'Start washing', 'ironing' => 'Start ironing', 'ready' => 'Mark ready', 'completed' => 'Mark completed'];
+        // In user testing most laundry workers needed help to move an order on, so each stage says what to do next.
+        $workerSteps = ['accepted' => 'Picked up', 'picked_up' => 'Washing', 'washing' => 'Ironing (optional)', 'ironing' => 'Ready', 'ready' => 'Completed'];
+        $nextStepHint = [
+            'accepted' => 'Collect the clothes from the student, then press “Mark picked up”.',
+            'picked_up' => 'When you start washing the clothes, press “Start washing”.',
+            'washing' => 'If the clothes need ironing, press “Start ironing”. For a wash-only order, press “Mark ready”.',
+            'ironing' => 'When the ironing is done and the clothes are ready to return, press “Mark ready”.',
+            'ready' => 'After you return the clothes to the student and they pay, press “Mark completed”.',
+        ];
     @endphp
 
     <div class="py-8">
@@ -78,6 +87,21 @@
                         </form>
                     </div>
                 @elseif (! empty($nextStatuses))
+                    @php $stepKeys = array_keys($workerSteps); $stepIndex = array_search($order->status, $stepKeys, true); @endphp
+                    <ol class="flex flex-wrap gap-x-4 gap-y-1 text-xs mb-3" aria-label="Order stages">
+                        @foreach ($workerSteps as $from => $stepLabel)
+                            @php $done = $stepIndex !== false && $loop->index < $stepIndex; $current = $loop->index === $stepIndex; @endphp
+                            <li class="inline-flex items-center gap-1 {{ $current ? 'text-aun-navy font-semibold' : ($done ? 'text-gray-500' : 'text-gray-400') }}">
+                                @if ($done) <x-heroicon-m-check class="w-3.5 h-3.5" aria-hidden="true" /> @else <span>{{ $loop->iteration }}.</span> @endif
+                                {{ $stepLabel }}
+                            </li>
+                        @endforeach
+                    </ol>
+                    @if (isset($nextStepHint[$order->status]))
+                        <p class="text-sm text-gray-700 bg-aun-navy/5 rounded-md px-3 py-2 mb-3" data-next-step>
+                            <span class="font-semibold">Next step:</span> {{ $nextStepHint[$order->status] }}
+                        </p>
+                    @endif
                     <div class="flex flex-wrap gap-3">
                         @foreach ($nextStatuses as $next)
                             <form method="POST" action="{{ route('worker.orders.advance', $order) }}">

@@ -5,6 +5,16 @@
 
     <div class="py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <!-- One-click residence hall filter (staff struggled to find one hall's orders in user testing) -->
+            <nav aria-label="Orders by residence hall" class="flex flex-wrap gap-2" data-hall-links>
+                <a href="{{ route('admin.orders.index', array_filter(['status' => $filters['status'] ?? null])) }}"
+                   class="px-3 py-1.5 rounded-full text-sm border {{ empty($filters['dorm_id']) ? 'bg-aun-navy text-white border-aun-navy' : 'bg-white text-gray-700 border-gray-300 hover:border-aun-navy' }}">All halls</a>
+                @foreach ($dorms as $dorm)
+                    <a href="{{ route('admin.orders.index', array_filter(['dorm_id' => $dorm->id, 'status' => $filters['status'] ?? null])) }}"
+                       class="px-3 py-1.5 rounded-full text-sm border {{ (string) ($filters['dorm_id'] ?? '') === (string) $dorm->id ? 'bg-aun-navy text-white border-aun-navy' : 'bg-white text-gray-700 border-gray-300 hover:border-aun-navy' }}">{{ $dorm->name }}</a>
+                @endforeach
+            </nav>
+
             <!-- Filters -->
             <form method="GET" class="bg-white shadow-sm rounded-lg p-4 flex flex-wrap items-end gap-3">
                 <div>
@@ -21,7 +31,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1">Dorm</label>
+                    <label class="block text-xs text-gray-500 mb-1">Residence hall</label>
                     <select name="dorm_id" class="border-gray-300 rounded-md text-sm">
                         <option value="">All</option>
                         @foreach ($dorms as $dorm)

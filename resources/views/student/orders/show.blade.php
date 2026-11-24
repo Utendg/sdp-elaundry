@@ -11,6 +11,16 @@
         $currentIndex = $order->pipelineIndex();
         $isClosedAbnormally = in_array($order->status, ['cancelled', 'rejected'], true);
         $studentRating = $order->ratings->firstWhere('direction', 'student_to_worker');
+        // Students found the stage timeline the hardest part to read in user testing, so it says what happens next.
+        $whatNext = [
+            'pending' => 'Waiting for your laundry worker to accept the order. You can still cancel it.',
+            'accepted' => 'Your worker has accepted the order and will collect your clothes. Their phone number is below.',
+            'picked_up' => 'Your clothes have been collected. Washing is next.',
+            'washing' => 'Your clothes are being washed. Ironing comes next, unless the order is wash-only.',
+            'ironing' => 'Your clothes are being ironed. Your worker will mark them ready when they are done.',
+            'ready' => 'Your clothes are ready. Your worker will bring them back, and you pay on return.',
+            'completed' => 'This order is complete. You can rate your worker below.',
+        ];
     @endphp
 
     <div class="py-8">
@@ -45,6 +55,11 @@
                             </li>
                         @endforeach
                     </ol>
+                    @if (isset($whatNext[$order->status]))
+                        <p class="mt-4 text-sm text-gray-700 bg-aun-navy/5 rounded-md px-3 py-2" data-what-next>
+                            <span class="font-semibold">What happens next:</span> {{ $whatNext[$order->status] }}
+                        </p>
+                    @endif
                 @endif
             </div>
 
