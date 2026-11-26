@@ -19,10 +19,13 @@ RUN npm run build
 
 # 3. Runtime
 FROM php:8.2-apache
+# Apache's alias module maps /icons/ to its own icon folder, which hid the app's /icons/*.png
+# (so Android would not offer to install the app). Laravel does not need it, so it is disabled.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends libpq-dev libzip-dev unzip \
  && docker-php-ext-install pdo_pgsql pdo_mysql zip opcache \
  && a2enmod rewrite headers \
+ && a2dismod -f alias \
  && rm -rf /var/lib/apt/lists/*
 
 # Serve Laravel's public/ folder on the port Render gives us ($PORT, 10000 by default)
