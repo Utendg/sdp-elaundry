@@ -18,7 +18,7 @@ class AdminPermission extends Model
 
     /** Responsibilities the Head of Residence Life can give to other admins. */
     public const GRANTABLE = [
-        self::WORKERS => 'Laundry workers (approve, decline, revoke)',
+        self::WORKERS => 'Laundry agents (approve, decline, revoke)',
         self::ORDERS => 'Order monitoring',
         self::COMPLAINTS => 'Complaints',
         self::PRICES => 'Price list',

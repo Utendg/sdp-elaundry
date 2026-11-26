@@ -51,7 +51,7 @@
                         <tr class="text-left text-gray-500 border-b">
                             <th class="px-4 py-3">Ref</th>
                             <th class="px-4 py-3">Student</th>
-                            <th class="px-4 py-3">Worker</th>
+                            <th class="px-4 py-3">Agent</th>
                             <th class="px-4 py-3">Dorm</th>
                             <th class="px-4 py-3 text-right">Total</th>
                             <th class="px-4 py-3">Status</th>

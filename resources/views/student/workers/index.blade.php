@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Find a Laundry Worker') }}</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Find a Laundry Agent') }}</h2>
     </x-slot>
 
     <div class="py-8">
@@ -10,13 +10,13 @@
                 <label class="inline-flex items-center gap-2 text-sm text-gray-700">
                     <input type="checkbox" name="my_dorm" value="1" onchange="this.form.submit()"
                            @checked($sameDormOnly) class="rounded border-gray-300 text-aun-navy focus:ring-aun-orange">
-                    Show only workers in my dorm
+                    Show only agents in my dorm
                 </label>
             </form>
 
             @if ($workers->isEmpty())
                 <div class="bg-white shadow-sm rounded-lg p-8 text-center text-gray-500">
-                    No approved workers available{{ $sameDormOnly ? ' in your dorm' : '' }} right now. Please check back later.
+                    No approved agents available{{ $sameDormOnly ? ' in your dorm' : '' }} right now. Please check back later.
                 </div>
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

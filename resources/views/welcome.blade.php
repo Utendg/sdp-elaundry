@@ -6,13 +6,13 @@
 
     {{-- SEO: unique title + meta description --}}
     <title>AUN E-Laundry | Laundry for AUN residence halls</title>
-    <meta name="description" content="AUN E-Laundry connects American University of Nigeria students with approved laundry workers in their residence hall, with university prices, order tracking and ratings.">
+    <meta name="description" content="AUN E-Laundry connects American University of Nigeria students with approved laundry agents in their residence hall, with university prices, order tracking and ratings.">
     <link rel="canonical" href="{{ url('/') }}">
 
     {{-- Social share image (Open Graph + Twitter) --}}
     <meta property="og:type" content="website">
     <meta property="og:title" content="AUN E-Laundry | Laundry for AUN residence halls">
-    <meta property="og:description" content="Pick a laundry worker in your hall, see the price before you book, and follow your order.">
+    <meta property="og:description" content="Pick a laundry agent in your hall, see the price before you book, and follow your order.">
     <meta property="og:image" content="{{ asset('images/aun/campus.jpg') }}">
     <meta property="og:url" content="{{ url('/') }}">
     <meta name="twitter:card" content="summary_large_image">
@@ -86,7 +86,7 @@
                     Laundry for AUN residence halls, booked and tracked online.
                 </h1>
                 <p class="mt-6 text-lg text-white/85">
-                    Pick a laundry worker in your hall, see the university price before you book,
+                    Pick a laundry agent in your hall, see the university price before you book,
                     and follow your order from pickup to return.
                 </p>
                 <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -100,13 +100,13 @@
     <!-- Features -->
     <section class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
         <h2 class="text-2xl sm:text-3xl font-bold text-aun-navy">What the platform does</h2>
-        <p class="mt-3 text-gray-600 max-w-2xl">It replaces the cash-on-return arrangement with the hall laundry men with a record both sides can check.</p>
+        <p class="mt-3 text-gray-600 max-w-2xl">It replaces the cash-on-return arrangement with the hall laundry agents with a record both sides can check.</p>
         @php
             $features = [
                 ['tag', 'University prices', 'Each item is charged at the rate set by Residence Life. The total is shown before you place the order.'],
-                ['map-pin', 'Order tracking', 'The worker updates the order as it moves from pickup to washing, ironing and ready for return.'],
-                ['star', 'Two-way ratings', 'Students rate workers and workers rate students after each completed order.'],
-                ['shield-check', 'Approved workers', 'A worker account can only take orders after an administrator approves it.'],
+                ['map-pin', 'Order tracking', 'The agent updates the order as it moves from pickup to washing, ironing and ready for return.'],
+                ['star', 'Two-way ratings', 'Students rate agents and agents rate students after each completed order.'],
+                ['shield-check', 'Approved agents', 'An agent account can only take orders after an administrator approves it.'],
             ];
         @endphp
         <dl class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
@@ -128,10 +128,10 @@
             <img src="{{ asset('images/aun/students.jpg') }}" alt="American University of Nigeria students on campus" class="w-full h-72 sm:h-96 object-cover rounded-md">
             <div>
                 <h2 class="text-2xl sm:text-3xl font-bold text-aun-navy">Organised by residence hall</h2>
-                <p class="mt-4 text-gray-600">Each of the nine halls has its own laundry worker. You see the workers in your hall first, and the Residence Life admins can follow every order.</p>
+                <p class="mt-4 text-gray-600">Each of the nine halls has its own laundry agent. You see the agents in your hall first, and the Residence Life admins can follow every order.</p>
                 <ul class="mt-6 space-y-3">
                     @foreach ([
-                        'Workers in your hall are listed by rating',
+                        'Agents in your hall are listed by rating',
                         'The price is fixed before you book',
                         'Complaints go to the Residence Life admins',
                     ] as $point)
@@ -150,9 +150,9 @@
         <h2 class="text-2xl sm:text-3xl font-bold text-aun-navy">How an order works</h2>
         @php
             $steps = [
-                ['Choose a worker', 'Open the list of approved workers in your hall and pick one.'],
+                ['Choose an agent', 'Open the list of approved agents in your hall and pick one.'],
                 ['Place the order', 'Add your items. The total uses the university price list.'],
-                ['Follow and rate', 'You get a notification at each stage. Rate the worker when your clothes are returned.'],
+                ['Follow and rate', 'You get a notification at each stage. Rate the agent when your clothes are returned.'],
             ];
         @endphp
         <ol class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-8">
@@ -216,9 +216,9 @@
             <div class="mt-8 divide-y divide-gray-200 border-y border-gray-200">
                 @php
                     $faqs = [
-                        ['Who can use AUN E-Laundry?', 'Any AUN student can register to place laundry orders, and campus laundry workers can register to offer their services. Worker accounts are reviewed by an administrator before they can take orders.'],
+                        ['Who can use AUN E-Laundry?', 'Any AUN student can register to place laundry orders, and campus laundry agents can register to offer their services. Agent accounts are reviewed by an administrator before they can take orders.'],
                         ['How is the price decided?', 'Residence Life sets a price for each item, so you pay the official rate. You see the exact total before you place an order.'],
-                        ['How do I know a worker is reliable?', 'Every worker is approved by an admin, and each has a rating and reviews from other students.'],
+                        ['How do I know an agent is reliable?', 'Every agent is approved by an admin, and each has a rating and reviews from other students.'],
                         ['What if an item is damaged or missing?', 'You can file a complaint against the order. Administrators review complaints and settle disputes.'],
                         ['Does the platform charge a fee?', 'No. Creating an account is free. You only pay for the laundry itself, at the university rate.'],
                     ];

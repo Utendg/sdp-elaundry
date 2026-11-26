@@ -13,13 +13,13 @@
         $studentRating = $order->ratings->firstWhere('direction', 'student_to_worker');
         // Students found the stage timeline the hardest part to read in user testing, so it says what happens next.
         $whatNext = [
-            'pending' => 'Waiting for your laundry worker to accept the order. You can still cancel it.',
-            'accepted' => 'Your worker has accepted the order and will collect your clothes. Their phone number is below.',
+            'pending' => 'Waiting for your laundry agent to accept the order. You can still cancel it.',
+            'accepted' => 'Your agent has accepted the order and will collect your clothes. Their phone number is below.',
             'picked_up' => 'Your clothes have been collected. Washing is next.',
             'washing' => 'Your clothes are being washed. Ironing comes next, unless the order is wash-only.',
-            'ironing' => 'Your clothes are being ironed. Your worker will mark them ready when they are done.',
-            'ready' => 'Your clothes are ready. Your worker will bring them back, and you pay on return.',
-            'completed' => 'This order is complete. You can rate your worker below.',
+            'ironing' => 'Your clothes are being ironed. Your agent will mark them ready when they are done.',
+            'ready' => 'Your clothes are ready. Your agent will bring them back, and you pay on return.',
+            'completed' => 'This order is complete. You can rate your agent below.',
         ];
     @endphp
 
@@ -66,9 +66,9 @@
             <!-- Summary -->
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
-                    <div class="flex items-center gap-2"><span class="text-gray-500">Worker:</span> @if ($order->worker)<x-avatar :user="$order->worker" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
+                    <div class="flex items-center gap-2"><span class="text-gray-500">Agent:</span> @if ($order->worker)<x-avatar :user="$order->worker" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
                     @if ($order->worker?->phone && ! in_array($order->status, ['pending', 'cancelled', 'rejected'], true))
-                        <div><span class="text-gray-500">Worker phone:</span> <a href="tel:{{ $order->worker->phone }}" class="font-medium text-aun-navy hover:underline">{{ $order->worker->phone }}</a></div>
+                        <div><span class="text-gray-500">Agent phone:</span> <a href="tel:{{ $order->worker->phone }}" class="font-medium text-aun-navy hover:underline">{{ $order->worker->phone }}</a></div>
                     @endif
                     <div><span class="text-gray-500">Dorm:</span> <span class="font-medium">{{ $order->dorm?->name ?? '—' }}</span></div>
                     <div><span class="text-gray-500">Placed:</span> <span class="font-medium">{{ $order->created_at->format('d M Y, g:i A') }}</span></div>
@@ -134,7 +134,7 @@
             <!-- Rating (after completion) -->
             @if ($order->isCompleted())
                 <div class="bg-white shadow-sm rounded-lg p-6">
-                    <h3 class="font-semibold text-gray-900 mb-3">Rate your worker</h3>
+                    <h3 class="font-semibold text-gray-900 mb-3">Rate your agent</h3>
                     @if ($studentRating)
                         <div class="flex items-center gap-2">
                             <x-stars :value="$studentRating->stars" />
@@ -175,7 +175,7 @@
                         <option value="missing">Missing item</option>
                         <option value="delayed">Delayed service</option>
                         <option value="pricing">Pricing issue</option>
-                        <option value="conduct">Worker conduct</option>
+                        <option value="conduct">Agent conduct</option>
                         <option value="other">Other</option>
                     </select>
                     <input type="text" name="subject" placeholder="Subject" required class="block w-full border-gray-300 rounded-md text-sm">
@@ -187,7 +187,7 @@
             <!-- Notes from the worker -->
             @if ($order->workerNotes->isNotEmpty())
                 <div class="bg-white shadow-sm rounded-lg p-6">
-                    <h3 class="font-semibold text-gray-900 mb-3">Notes from your worker</h3>
+                    <h3 class="font-semibold text-gray-900 mb-3">Notes from your agent</h3>
                     @foreach ($order->workerNotes as $note)
                         <div class="border-t border-gray-100 py-2 text-sm first:border-t-0">
                             <div class="text-xs text-gray-400">{{ $note->created_at->format('d M, g:i A') }}</div>

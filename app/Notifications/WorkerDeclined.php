@@ -28,7 +28,7 @@ class WorkerDeclined extends Notification
     {
         return [
             'type' => 'worker_declined',
-            'message' => 'Your laundry worker application was declined'.($this->reason ? ": {$this->reason}" : '.'),
+            'message' => 'Your laundry agent application was declined'.($this->reason ? ": {$this->reason}" : '.'),
             'url' => route('dashboard'),
         ];
     }

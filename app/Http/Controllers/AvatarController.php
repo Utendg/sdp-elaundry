@@ -53,7 +53,7 @@ class AvatarController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         $user = $request->user();
-        abort_if($user->isWorker(), 403, 'Laundry workers must keep a profile photo.');
+        abort_if($user->isWorker(), 403, 'Laundry agents must keep a profile photo.');
 
         $user->removeAvatar();
 

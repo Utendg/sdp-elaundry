@@ -25,7 +25,7 @@ function registration(array $overrides = []): array
 
 it('requires a photo when a laundry worker registers', function () {
     post('/register', registration(['role' => 'worker']))
-        ->assertSessionHasErrors(['avatar' => 'Laundry workers must upload a clear photo of their face.']);
+        ->assertSessionHasErrors(['avatar' => 'Laundry agents must upload a clear photo of their face.']);
 
     $this->assertGuest();
     expect(User::count())->toBe(0);

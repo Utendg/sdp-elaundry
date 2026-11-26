@@ -21,7 +21,7 @@ class RatingController extends Controller
         }
 
         if (! $order->worker_id) {
-            return back()->withErrors(['rating' => 'This order has no assigned worker to rate.']);
+            return back()->withErrors(['rating' => 'This order has no assigned agent to rate.']);
         }
 
         // One rating per direction per order.

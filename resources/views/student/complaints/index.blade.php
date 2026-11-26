@@ -21,7 +21,7 @@
                         <option value="missing">Missing item</option>
                         <option value="delayed">Delayed service</option>
                         <option value="pricing">Pricing issue</option>
-                        <option value="conduct">Worker conduct</option>
+                        <option value="conduct">Agent conduct</option>
                         <option value="other">Other</option>
                     </select>
                     <input type="text" name="subject" placeholder="Subject" required class="block w-full border-gray-300 rounded-md text-sm">

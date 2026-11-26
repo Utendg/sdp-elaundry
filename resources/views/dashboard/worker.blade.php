@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Worker Dashboard') }}</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Agent Dashboard') }}</h2>
     </x-slot>
 
     <div class="py-8">
@@ -13,7 +13,7 @@
                 <div class="bg-amber-50 border border-amber-200 text-amber-900 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div class="flex items-start gap-3">
                         <x-heroicon-o-camera class="w-6 h-6 shrink-0" aria-hidden="true" />
-                        <div><strong>Add a photo of yourself.</strong> Every laundry worker needs a clear profile photo so students can recognise who collects their clothes.</div>
+                        <div><strong>Add a photo of yourself.</strong> Every laundry agent needs a clear profile photo so students can recognise who collects their clothes.</div>
                     </div>
                     <a href="{{ route('profile.edit') }}" class="shrink-0 px-4 py-2 bg-aun-navy text-white text-sm rounded-md hover:bg-aun-navy-light text-center">Upload photo</a>
                 </div>
@@ -21,13 +21,13 @@
 
             @if ($profile?->isDeclined())
                 <div class="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
-                    <strong>Your laundry worker application was declined.</strong>
+                    <strong>Your laundry agent application was declined.</strong>
                     @if ($profile->decline_reason) Reason: {{ $profile->decline_reason }}. @endif
                     Please contact the Residence Life office if you think this is a mistake.
                 </div>
             @elseif (! $profile?->is_approved)
                 <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-lg p-4">
-                    <strong>Your worker account is pending approval.</strong>
+                    <strong>Your agent account is pending approval.</strong>
                     An administrator must approve your account before you appear to students or can receive orders.
                     You will get a notification once you are approved. You can still complete
                     <a href="{{ route('worker.profile.edit') }}" class="underline">your profile</a> in the meantime.

@@ -11,7 +11,7 @@
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
                     <div class="flex flex-wrap items-center gap-2"><span class="text-gray-500">Student:</span> @if ($order->student)<x-avatar :user="$order->student" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->student?->name }}</span> ({{ $order->student?->phone ?? 'no phone' }})</div>
-                    <div class="flex items-center gap-2"><span class="text-gray-500">Worker:</span> @if ($order->worker)<x-avatar :user="$order->worker" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
+                    <div class="flex items-center gap-2"><span class="text-gray-500">Agent:</span> @if ($order->worker)<x-avatar :user="$order->worker" size="w-8 h-8" text="text-xs" />@endif <span class="font-medium">{{ $order->worker?->name ?? 'Unassigned' }}</span></div>
                     <div><span class="text-gray-500">Dorm:</span> <span class="font-medium">{{ $order->dorm?->name ?? '—' }}</span></div>
                     <div><span class="text-gray-500">Placed:</span> <span class="font-medium">{{ $order->created_at->format('d M Y, g:i A') }}</span></div>
                 </div>
@@ -38,7 +38,7 @@
                     <h3 class="font-semibold text-gray-900 mb-3">Ratings</h3>
                     @foreach ($order->ratings as $rating)
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="text-xs text-gray-500 w-40">{{ $rating->direction === 'student_to_worker' ? 'Student to worker' : 'Worker to student' }}</span>
+                            <span class="text-xs text-gray-500 w-40">{{ $rating->direction === 'student_to_worker' ? 'Student to agent' : 'Agent to student' }}</span>
                             <x-stars :value="$rating->stars" />
                             @if ($rating->comment)<span class="text-sm text-gray-600">{{ $rating->comment }}</span>@endif
                         </div>
@@ -60,7 +60,7 @@
 
             @if ($order->workerNotes->isNotEmpty())
                 <div class="bg-white shadow-sm rounded-lg p-6">
-                    <h3 class="font-semibold text-gray-900 mb-3">Worker notes</h3>
+                    <h3 class="font-semibold text-gray-900 mb-3">Agent notes</h3>
                     @foreach ($order->workerNotes as $note)
                         <div class="border-t border-gray-100 py-2 text-sm first:border-t-0">
                             <div class="text-xs text-gray-400">{{ $note->created_at->format('d M, g:i A') }} @if ($note->author) · {{ $note->author->name }} @endif</div>

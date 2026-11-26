@@ -34,7 +34,7 @@ class WorkerRegistered extends Notification
         return [
             'type' => 'worker_registered',
             'worker_id' => $this->worker->id,
-            'message' => "New laundry worker {$this->worker->name}".($dorm ? " ({$dorm})" : '').' is awaiting approval.',
+            'message' => "New laundry agent {$this->worker->name}".($dorm ? " ({$dorm})" : '').' is awaiting approval.',
             'url' => route('admin.workers.index'),
         ];
     }

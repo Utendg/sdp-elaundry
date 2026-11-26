@@ -20,8 +20,8 @@ class EnsureWorkerApproved
             return redirect()
                 ->route('dashboard')
                 ->withErrors(['approval' => $user->workerProfile?->isDeclined()
-                    ? 'Your worker application was declined.'
-                    : 'Your worker account is awaiting admin approval.']);
+                    ? 'Your agent application was declined.'
+                    : 'Your agent account is awaiting admin approval.']);
         }
 
         return $next($request);

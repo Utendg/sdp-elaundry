@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
             // Workers must show a real photo of themselves; students may add one if they like.
             'avatar' => AvatarController::rules($request->input('role') === User::ROLE_WORKER),
         ], [
-            'avatar.required' => 'Laundry workers must upload a clear photo of their face.',
+            'avatar.required' => 'Laundry agents must upload a clear photo of their face.',
             'avatar.dimensions' => 'The photo must be at least 200 by 200 pixels.',
         ]);
 

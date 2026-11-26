@@ -24,7 +24,7 @@ class WorkerApproved extends Notification
     {
         return [
             'type' => 'worker_approved',
-            'message' => 'Your worker account has been approved. You can now receive orders.',
+            'message' => 'Your agent account has been approved. You can now receive orders.',
             'url' => route('worker.orders.index'),
         ];
     }

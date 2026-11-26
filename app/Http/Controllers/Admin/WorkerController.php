@@ -64,7 +64,7 @@ class WorkerController extends Controller
             ?? WorkerProfile::create(['user_id' => $worker->id, 'is_approved' => false]);
 
         if ($profile->is_approved) {
-            return back()->withErrors(['decline' => 'This worker is already approved. Revoke the approval instead.']);
+            return back()->withErrors(['decline' => 'This agent is already approved. Revoke the approval instead.']);
         }
 
         $validated = $request->validate(['reason' => ['nullable', 'string', 'max:500']]);

@@ -44,7 +44,7 @@ it('tells the student what happens next on the tracking page', function () {
         ->get(route('student.orders.show', ($this->makeOrder)('pending')))
         ->assertOk()
         ->assertSee('What happens next:')
-        ->assertSee('Waiting for your laundry worker to accept the order');
+        ->assertSee('Waiting for your laundry agent to accept the order');
 
     actingAs($this->student)
         ->get(route('student.orders.show', ($this->makeOrder)('ready')))

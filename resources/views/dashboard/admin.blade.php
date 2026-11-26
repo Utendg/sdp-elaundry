@@ -26,7 +26,7 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                     @if ($canWorkers)
                         <a href="{{ route('admin.workers.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">
-                            <div class="text-sm text-gray-500">Workers</div>
+                            <div class="text-sm text-gray-500">Agents</div>
                             <div class="text-3xl font-bold text-gray-900">{{ $totalWorkers }}</div>
                         </a>
                         <a href="{{ route('admin.workers.index') }}" class="bg-white shadow-sm rounded-lg p-6 hover:shadow">

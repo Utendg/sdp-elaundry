@@ -3,9 +3,9 @@
         <h2 class="text-lg font-medium text-gray-900">{{ __('Profile photo') }}</h2>
         <p class="mt-1 text-sm text-gray-600">
             @if ($user->isWorker())
-                Students see this photo when they choose a worker and when you collect their clothes. Use a clear, recent photo of your face.
+                Students see this photo when they choose an agent and when you collect their clothes. Use a clear, recent photo of your face.
             @else
-                Optional. Your laundry worker sees it on your orders.
+                Optional. Your laundry agent sees it on your orders.
             @endif
         </p>
     </header>

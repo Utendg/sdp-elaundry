@@ -2,7 +2,7 @@
     "id": "/",
     "name": "AUN E-Laundry",
     "short_name": "E-Laundry",
-    "description": "Find an approved laundry worker in your AUN residence hall, see the official price and track your laundry.",
+    "description": "Find an approved laundry agent in your AUN residence hall, see the official price and track your laundry.",
     "start_url": "/dashboard?source=app",
     "scope": "/",
     "display": "standalone",

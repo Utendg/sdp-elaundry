@@ -19,7 +19,7 @@
 
                     @if (Auth::user()->isStudent())
                         <x-nav-link :href="route('student.workers.index')" :active="request()->routeIs('student.workers.*')">
-                            {{ __('Find a Worker') }}
+                            {{ __('Find an Agent') }}
                         </x-nav-link>
                         <x-nav-link :href="route('student.orders.index')" :active="request()->routeIs('student.orders.*')">
                             {{ __('My Orders') }}
@@ -39,7 +39,7 @@
                     @elseif (Auth::user()->isAdmin())
                         @if (Auth::user()->hasAdminPermission('workers'))
                         <x-nav-link :href="route('admin.workers.index')" :active="request()->routeIs('admin.workers.*')">
-                            {{ __('Workers') }}
+                            {{ __('Agents') }}
                         </x-nav-link>
                         @endif
                         @if (Auth::user()->hasAdminPermission('orders'))
@@ -158,7 +158,7 @@
 
             @if (Auth::user()->isStudent())
                 <x-responsive-nav-link :href="route('student.workers.index')" :active="request()->routeIs('student.workers.*')">
-                    {{ __('Find a Worker') }}
+                    {{ __('Find an Agent') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('student.orders.index')" :active="request()->routeIs('student.orders.*')">
                     {{ __('My Orders') }}
@@ -178,7 +178,7 @@
             @elseif (Auth::user()->isAdmin())
                 @if (Auth::user()->hasAdminPermission('workers'))
                 <x-responsive-nav-link :href="route('admin.workers.index')" :active="request()->routeIs('admin.workers.*')">
-                    {{ __('Workers') }}
+                    {{ __('Agents') }}
                 </x-responsive-nav-link>
                 @endif
                 @if (Auth::user()->hasAdminPermission('orders'))

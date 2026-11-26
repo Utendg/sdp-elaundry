@@ -140,7 +140,7 @@ class DatabaseSeeder extends Seeder
                 : User::firstOrCreate(['email' => $email], $attributes);
 
             $profile = [
-                'bio' => "Laundry worker for {$dorm->name}. Washing, drying and ironing with a quick turnaround.",
+                'bio' => "Laundry agent for {$dorm->name}. Washing, drying and ironing with a quick turnaround.",
                 'is_approved' => true,
                 'is_available' => true,
                 'approved_at' => now(),

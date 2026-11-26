@@ -55,7 +55,7 @@ class OrderController extends Controller
             return back()->withErrors(['status' => 'Only pending orders can be accepted.']);
         }
 
-        $this->orders->transition($order, 'accepted', $request->user(), 'Accepted by worker.');
+        $this->orders->transition($order, 'accepted', $request->user(), 'Accepted by agent.');
         $order->student->notify(new OrderStatusChanged($order, 'accepted'));
 
         return back()->with('status', "Order {$order->reference} accepted.");
@@ -75,7 +75,7 @@ class OrderController extends Controller
         ]);
 
         $order->cancel_reason = $validated['reason'] ?? null;
-        $this->orders->transition($order, 'rejected', $request->user(), $validated['reason'] ?? 'Rejected by worker.');
+        $this->orders->transition($order, 'rejected', $request->user(), $validated['reason'] ?? 'Rejected by agent.');
         $order->student->notify(new OrderStatusChanged($order, 'rejected'));
 
         return back()->with('status', "Order {$order->reference} rejected.");

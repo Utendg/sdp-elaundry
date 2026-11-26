@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Workers') }}</h2>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ __('Agents') }}</h2>
     </x-slot>
 
     <div class="py-8">
@@ -50,14 +50,14 @@
                             </form>
                         </div>
                     @empty
-                        <div class="px-6 py-8 text-center text-gray-500">No workers awaiting approval.</div>
+                        <div class="px-6 py-8 text-center text-gray-500">No agents awaiting approval.</div>
                     @endforelse
                 </div>
             </section>
 
             <!-- Approved -->
             <section>
-                <h3 class="font-semibold text-gray-900 mb-3">Approved workers
+                <h3 class="font-semibold text-gray-900 mb-3">Approved agents
                     <span class="ms-1 text-xs bg-green-100 text-green-800 rounded-full px-2 py-0.5">{{ $approved->count() }}</span>
                 </h3>
                 <div class="bg-white shadow-sm rounded-lg overflow-hidden">
@@ -80,7 +80,7 @@
                             </form>
                         </div>
                     @empty
-                        <div class="px-6 py-8 text-center text-gray-500">No approved workers yet.</div>
+                        <div class="px-6 py-8 text-center text-gray-500">No approved agents yet.</div>
                     @endforelse
                 </div>
             </section>

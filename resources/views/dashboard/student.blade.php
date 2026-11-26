@@ -40,7 +40,7 @@
                     </a>
                 @empty
                     <div class="px-6 py-8 text-center text-gray-500">
-                        No orders yet. <a href="{{ route('student.workers.index') }}" class="text-aun-navy hover:underline">Find a worker</a> to get started.
+                        No orders yet. <a href="{{ route('student.workers.index') }}" class="text-aun-navy hover:underline">Find an agent</a> to get started.
                     </div>
                 @endforelse
             </div>

@@ -26,7 +26,7 @@
         <div class="mt-8 space-y-8 text-gray-700 leading-relaxed">
             <section>
                 <h2 class="text-lg font-semibold text-aun-navy">1. Who we are</h2>
-                <p class="mt-2">AUN E-Laundry is a campus laundry-management platform operated as a Senior Design Project at the American University of Nigeria (AUN), Yola. It connects students with verified laundry workers under the oversight of university administrators.</p>
+                <p class="mt-2">AUN E-Laundry is a campus laundry-management platform operated as a Senior Design Project at the American University of Nigeria (AUN), Yola. It connects students with verified laundry agents under the oversight of university administrators.</p>
             </section>
             <section>
                 <h2 class="text-lg font-semibold text-aun-navy">2. Information we collect</h2>
@@ -34,11 +34,11 @@
             </section>
             <section>
                 <h2 class="text-lg font-semibold text-aun-navy">3. How we use your information</h2>
-                <p class="mt-2">Your information is used to operate the platform: to connect students and workers, calculate order prices at the official university rate, track order progress, deliver notifications, and allow administrators to resolve disputes and ensure service quality.</p>
+                <p class="mt-2">Your information is used to operate the platform: to connect students and agents, calculate order prices at the official university rate, track order progress, deliver notifications, and allow administrators to resolve disputes and ensure service quality.</p>
             </section>
             <section>
                 <h2 class="text-lg font-semibold text-aun-navy">4. Who can see your information</h2>
-                <p class="mt-2">Workers see the order details and contact information necessary to fulfil your order. Students see workers' public profiles and reviews. Administrators can view accounts, orders, ratings, and complaints for oversight. We do not sell your personal information.</p>
+                <p class="mt-2">Agents see the order details and contact information necessary to fulfil your order. Students see agents' public profiles and reviews. Administrators can view accounts, orders, ratings, and complaints for oversight. We do not sell your personal information.</p>
             </section>
             <section>
                 <h2 class="text-lg font-semibold text-aun-navy">5. Data security</h2>
